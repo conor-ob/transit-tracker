@@ -77,7 +77,7 @@ These are `preserve()` in the config, so they're set in the Railway dashboard an
 Install dependencies with `pnpm install`, then:
 
 - `pnpm check`: Biome formatting, lint and import order
-- `pnpm fix`: apply Biome fixes
+- `pnpm check:fix`: apply Biome fixes
 - `pnpm typecheck`: type-check `.railway/railway.ts`
 
 CI ([`ci.yaml`](.github/workflows/ci.yaml)) runs both checks on every PR.

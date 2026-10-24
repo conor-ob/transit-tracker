@@ -41,8 +41,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      # railway.ts imports railway/iac. Install it the same way as CI, then
-      # tell railwayapp/config to skip its own install
+      # railway.ts imports railway/iac, but railwayapp/config@v1 always runs
+      # `npm install` when package.json exists, and npm refuses to run here
+      # because devEngines pins pnpm. Install with pnpm, then hide package.json
+      # so the npm step no-ops
       - name: Install pnpm
         uses: pnpm/action-setup@v6
 
@@ -55,13 +57,15 @@ jobs:
       - name: Install deps
         run: pnpm install --frozen-lockfile
 
+      - name: Hide package.json from npm
+        run: mv package.json package.json.bak
+
       # Uploads the plan as an artifact; the apply job applies exactly this
       # plan on merge
       - name: Railway config plan
         uses: railwayapp/config@v1
         with:
           command: plan
-          package-manager: none
           railway-token: ${{ secrets.RAILWAY_TOKEN }}
 
   apply:
