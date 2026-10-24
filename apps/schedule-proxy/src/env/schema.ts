@@ -7,7 +7,7 @@ const envSchema = z.object({
   NODE_ENV: z.enum(["production", "development", "test"]),
   PORT: z.coerce.number().int(),
   // The unmodified api, which the proxy forwards to without Direction filters
-  API_URL: z.url().transform((url) => url.replace(/\/$/, "")),
+  API_URL: z.url(),
   LOG_LEVEL: z
     .enum(["fatal", "error", "warn", "info", "debug", "trace", "silent"])
     .default("info"),
