@@ -1,17 +1,18 @@
 import type { FastifyInstance } from "fastify";
+
 import {
   applyDirectionFilters,
   InvalidDirectionError,
   parseRouteStopPairs,
   type Trip,
   toUpstreamRouteStopPairs,
-} from "./route-stop-pairs";
-import { upstreamHeaders } from "./upstream-headers";
+} from "~/schedule/route-stop-pairs";
+import { upstreamHeaders } from "~/upstream/headers";
 
 const UPSTREAM_MAX_LIMIT = 10;
 
-export function scheduleRest(app: FastifyInstance, apiUrl: string) {
-  app.get<{
+export default function (fastify: FastifyInstance, apiUrl: string) {
+  fastify.get<{
     Params: { routeStopPairs: string };
     Querystring: { limit?: string };
   }>("/schedule/:routeStopPairs", async (request, reply) => {

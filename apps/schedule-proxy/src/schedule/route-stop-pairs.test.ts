@@ -1,11 +1,12 @@
 import { describe, expect, it } from "vitest";
+
 import {
   applyDirectionFilters,
   InvalidDirectionError,
   parseRouteStopPairs,
   type RouteStopPair,
   toUpstreamRouteStopPairs,
-} from "./route-stop-pairs";
+} from "~/schedule/route-stop-pairs";
 
 describe("parseRouteStopPairs", () => {
   it("parses a Direction filter with a blank Offset", () => {

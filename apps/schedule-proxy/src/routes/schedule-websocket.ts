@@ -1,5 +1,6 @@
 import type { FastifyInstance } from "fastify";
 import { type RawData, WebSocket } from "ws";
+
 import {
   applyDirectionFilters,
   InvalidDirectionError,
@@ -7,8 +8,8 @@ import {
   type RouteStopPair,
   type Trip,
   toUpstreamRouteStopPairs,
-} from "./route-stop-pairs";
-import { upstreamHeaders } from "./upstream-headers";
+} from "~/schedule/route-stop-pairs";
+import { upstreamHeaders } from "~/upstream/headers";
 
 const UPSTREAM_MAX_LIMIT = 20;
 
@@ -51,8 +52,8 @@ function closeCodeToForward(code: number): number | undefined {
   return sendable ? code : undefined;
 }
 
-export function scheduleWebSocket(app: FastifyInstance, apiWsUrl: string) {
-  app.get("/", { websocket: true }, (device, request) => {
+export default function (fastify: FastifyInstance, apiWsUrl: string) {
+  fastify.get("/", { websocket: true }, (device, request) => {
     const api = new WebSocket(apiWsUrl, {
       headers: upstreamHeaders(request.headers),
     });

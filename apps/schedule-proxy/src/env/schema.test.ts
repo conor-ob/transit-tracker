@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { parse } from "dotenv";
 import { expect, test } from "vitest";
 
-import { dotenvSchema } from "./schema";
+import { dotenvSchema } from "~/env/schema";
 
 test(".env.example matches the env schema", () => {
   const example = parse(readFileSync(".env.example"));

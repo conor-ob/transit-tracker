@@ -48,4 +48,4 @@ WORKDIR /app/apps/schedule-proxy
 
 ENV NODE_ENV=production
 
-CMD ["node", "dist/main.mjs"]
+CMD ["node", "dist/index.mjs"]
