@@ -34,13 +34,16 @@ You need Docker, pnpm and an NTA API key, which you can get free from the [NTA d
    pnpm compose:up
    ```
 
-The API listens on <http://localhost:3000>. To check it's running, open <http://localhost:3000/feeds>, which lists the configured feeds. The OpenAPI spec is served at `/openapi`.
+The API listens on <http://localhost:3000>, and `schedule-proxy` on <http://localhost:8080> (WebSocket at the root and `/schedule/...`, with [Direction filters](#direction-filters)). To check it's running, open <http://localhost:3000/feeds>, which lists the configured feeds. The OpenAPI spec is served at `/openapi`.
 
 After the first import, the API syncs the feed daily at 03:00 (`FEED_SYNC_SCHEDULE`). Stop the stack with `pnpm compose:down`. To wipe the local database as well, run `docker compose down -v`.
 
 ## Deploying to Railway
 
-The Railway project is defined in code in [`.railway/railway.ts`](.railway/railway.ts) and has three services:
+The Railway project is defined in code in [`.railway/railway.ts`](.railway/railway.ts) and has these services:
+
+- **gateway**: Caddy ([`apps/gateway`](apps/gateway)) on the public domain. It sends WebSocket upgrades and `/schedule/*` to `schedule-proxy`, and everything else to `api`, both over private networking
+- **schedule-proxy**: applies [Direction filters](#direction-filters) to the schedule ([`apps/schedule-proxy`](apps/schedule-proxy)), and uses `/healthz` as its health check
 
 - **api**: the `ghcr.io/tjhorner/transit-tracker-api:main` image on port 3000. It runs `pnpm gtfs:db:migrate` before each deploy and uses `/healthz` as its health check
 - **postgres**: Railway-managed, stores the imported GTFS data
@@ -82,15 +85,28 @@ Three upstream projects make up the stack. This repo only deploys the first. Use
 - **[transit-tracker-configurator](https://github.com/tjhorner/transit-tracker-configurator)**: the web app at [transit-tracker.eastsideurbanism.org/configurator](https://transit-tracker.eastsideurbanism.org/configurator), written in SvelteKit. It flashes firmware over USB, sets up Wi-Fi, picks stops and routes from a map, and sets route colours, abbreviations, walking-time offsets and the display layout. It pushes these settings to the board over USB or the local network, or exports them as ESPHome YAML. To use this deployment, open **Advanced → API Server** in the hosted configurator and enter this deployment's public `https://` URL. The configurator checks `/feeds` before saving, and the upstream API enables CORS, so this works without any changes here. Build it yourself with `PUBLIC_API_HOST` set to change the default server, for example so it starts on Irish stops.
 - **[esphome-transit-tracker](https://github.com/tjhorner/esphome-transit-tracker)**: the `transit_tracker` [ESPHome](https://esphome.io/) external component that runs on the board. It connects to the API, then draws the schedule on any ESPHome display (it's tuned for a 128x64 HUB75 matrix). Use it directly to put departures on your own hardware or into your own ESPHome or Home Assistant config. Set `base_url` to this deployment with a `wss://` scheme, and optionally set `feed_code: nta`. The configurator's "Generate YAML" button writes the `transit_tracker:` block for you. [`examples/matrix-portal-s3.yaml`](https://github.com/tjhorner/esphome-transit-tracker/blob/main/examples/matrix-portal-s3.yaml) is a complete device config.
 
+## Direction filters
+
+A DART station is a single stop served in both directions, so a board subscribed to it shows trains both ways. `schedule-proxy` lets a Route-stop pair carry a Direction (the route's GTFS `direction_id`, `0` or `1`) as a fourth field, `route,stop,offset,direction`, where the Offset may be blank:
+
+```txt
+nta:BRAY-HOWTH-I,nta:8220IR0134,,1
+```
+
+For the DART, Direction `0` is northbound (Howth/Malahide) and `1` is southbound (Bray/Greystones). The proxy strips the field before forwarding to `api`, drops trips travelling the other way (trips with no `directionId` are kept), and trims to the client's own limit. Pairs without a Direction are untouched. See [ADR 0001](docs/adr/0001-customize-schedules-in-a-proxy.md) for why this lives in a proxy rather than a fork.
+
 ## Development
 
-Install dependencies with `pnpm install`, then:
+It's a [Turborepo](https://turborepo.com) monorepo on pnpm workspaces. Install dependencies with `pnpm install`, then:
 
 - `pnpm check`: Biome formatting, lint and import order
 - `pnpm check:fix`: apply Biome fixes
-- `pnpm typecheck`: type-check `.railway/railway.ts`
+- `pnpm typecheck`: type-check every app
+- `pnpm build`: build every app (`schedule-proxy` is bundled with [tsdown](https://tsdown.dev) into `dist/index.mjs`)
+- `pnpm test`: run every app's tests
+- `pnpm dev`: run every app in watch mode (copy `apps/schedule-proxy/.env.example` to `.env` first; the env is validated at startup against [`src/env/schema.ts`](apps/schedule-proxy/src/env/schema.ts))
 
-CI ([`ci.yaml`](.github/workflows/ci.yaml)) runs both checks on every PR.
+CI ([`ci.yaml`](.github/workflows/ci.yaml)) runs the checks, typecheck, build and tests on every PR.
 
 ## Credits
 

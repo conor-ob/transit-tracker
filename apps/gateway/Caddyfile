@@ -28,8 +28,20 @@
 
 	encode zstd gzip
 
-	# proxy everything to the api over private networking
-	reverse_proxy {$API_URL} {
-		header_up Host {upstream_hostport}
+	# websocket upgrades (what devices use) and the rest schedule go through
+	# the schedule proxy, which applies direction filters
+	@schedule expression header({'Upgrade': 'websocket'}) || path('/schedule/*')
+
+	handle @schedule {
+		reverse_proxy {$SCHEDULE_PROXY_URL} {
+			header_up Host {upstream_hostport}
+		}
+	}
+
+	# proxy everything else to the api over private networking
+	handle {
+		reverse_proxy {$API_URL} {
+			header_up Host {upstream_hostport}
+		}
 	}
 }

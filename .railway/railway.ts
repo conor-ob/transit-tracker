@@ -83,11 +83,10 @@ export default defineRailway(() => {
     },
   });
 
-  // Proxies everything to the api over private networking, so the api needs
-  // no public domain
-  const gateway = service("gateway", {
+  // Applies Direction filters to the schedule, between the gateway and the
+  // unmodified api
+  const scheduleProxy = service("schedule-proxy", {
     source: transitTracker,
-    domains: [{ domain: "transit-tracker.conorob.me", port: 8080 }],
     env: {
       PORT: "8080",
       API_URL: railwayPrivateNetworkingUrl(api),
@@ -95,8 +94,28 @@ export default defineRailway(() => {
     build: {
       buildEnvironment: "V3",
       builder: "DOCKERFILE",
+      dockerfilePath: "apps/schedule-proxy/Dockerfile",
+    },
+    deploy: {
+      multiRegionConfig: { "europe-west4-drams3a": { numReplicas: 1 } },
+      healthcheckPath: "/healthz",
+    },
+  });
+
+  // Proxies everything to the api and schedule-proxy over private networking,
+  // so neither needs a public domain
+  const gateway = service("gateway", {
+    source: transitTracker,
+    domains: [{ domain: "transit-tracker.conorob.me", port: 8080 }],
+    env: {
+      PORT: "8080",
+      API_URL: railwayPrivateNetworkingUrl(api),
+      SCHEDULE_PROXY_URL: railwayPrivateNetworkingUrl(scheduleProxy),
+    },
+    build: {
+      buildEnvironment: "V3",
+      builder: "DOCKERFILE",
       dockerfilePath: "apps/gateway/Dockerfile",
-      watchPatterns: ["apps/gateway/**"],
     },
     deploy: {
       multiRegionConfig: { "europe-west4-drams3a": { numReplicas: 1 } },
@@ -105,7 +124,7 @@ export default defineRailway(() => {
   });
 
   const database = group("database", [postgresDatabase, redisCache]);
-  const backend = group("backend", [api]);
+  const backend = group("backend", [api, scheduleProxy]);
   const gatewayGroup = group("gateway", [gateway]);
 
   return project("transit-tracker", {

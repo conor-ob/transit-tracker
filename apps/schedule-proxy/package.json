@@ -1,0 +1,29 @@
+{
+  "name": "@transit-tracker/schedule-proxy",
+  "private": true,
+  "description": "Applies Direction filters to the schedule between the gateway and the api",
+  "type": "module",
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.mjs"
+  },
+  "dependencies": {
+    "@fastify/websocket": "^11.3.4",
+    "dotenv": "^18.0.4",
+    "fastify": "^5.12.7",
+    "ws": "^8.22.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@total-typescript/tsconfig": "^1.0.4",
+    "@types/node": "^24.19.2",
+    "@types/ws": "^8.18.2",
+    "tsdown": "^0.23.1",
+    "tsx": "^4.23.15",
+    "typescript": "catalog:",
+    "vitest": "^5.0.2"
+  }
+}
