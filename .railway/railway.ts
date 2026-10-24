@@ -11,8 +11,8 @@ import {
 
 const FEEDS_CONFIG = `feeds:
   nta:
-    name: NTA GTFS-R
-    description: The GTFS-R API contains real-time updates for services provided by Dublin Bus, Bus Éireann, and Go-Ahead Ireland
+    name: Transport for Ireland
+    description: Ireland
     gtfs:
       static:
         url: https://www.transportforireland.ie/transitData/Data/GTFS_Realtime.zip
