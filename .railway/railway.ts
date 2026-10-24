@@ -33,7 +33,6 @@ export default defineRailway(() => {
 
   const api = service("api", {
     source: image("ghcr.io/tjhorner/transit-tracker-api:main"),
-    preDeploy: "pnpm gtfs:db:migrate",
     env: {
       PORT: "3000",
       DATABASE_URL: postgresDatabase.env.DATABASE_URL,
@@ -46,6 +45,7 @@ export default defineRailway(() => {
       NTA_API_KEY: preserve(),
       FEEDS_CONFIG,
     },
+    preDeploy: "pnpm gtfs:db:migrate",
     deploy: {
       multiRegionConfig: { "europe-west4-drams3a": { numReplicas: 1 } },
       healthcheckPath: "/healthz",
