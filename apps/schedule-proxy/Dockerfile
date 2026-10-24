@@ -1,46 +1,43 @@
+# syntax=docker/dockerfile:1
+
 # Applies Direction filters to the schedule between the gateway and the api.
 # Built from the repo root so turbo can prune the workspace down to this app
-# https://fintlabs.medium.com/optimized-multi-stage-docker-builds-with-turborepo-and-pnpm-for-nodejs-microservices-in-a-monorepo-c686fdcf051f
 
-# Base Alpine image
-FROM node:24-alpine AS alpine
+ARG NODE_VERSION=24
+
+FROM node:${NODE_VERSION}-alpine AS base
 RUN apk add --no-cache libc6-compat
+# Use the pnpm version pinned in package.json#packageManager
+ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+RUN npm install --global corepack@latest && corepack enable
 
-# Setup pnpm and turbo
-FROM alpine AS base
-RUN npm install -g pnpm turbo \
-    && pnpm config set store-dir /root/.local/share/pnpm/store/v3
 
-# Prune projects to isolate subworkspace
+# Prune the monorepo down to @transit-tracker/schedule-proxy and its workspace
+# dependencies
 FROM base AS pruner
 WORKDIR /app
+RUN npm install --global turbo@2
 COPY . .
-RUN turbo prune --scope=@transit-tracker/schedule-proxy --docker
+RUN turbo prune @transit-tracker/schedule-proxy --docker
 
-# Build stage
+
+# Build schedule-proxy
 FROM base AS builder
-
 WORKDIR /app
 
-# Copy only lockfiles and pruned workspace manifests first
-COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
-COPY --from=pruner /app/out/pnpm-workspace.yaml ./pnpm-workspace.yaml
+# Install dependencies first so they are cached between source changes
 COPY --from=pruner /app/out/json/ .
-
-# Install dependencies (layer cached by Docker if lockfile unchanged)
 RUN pnpm install --frozen-lockfile
 
-# Copy full source for the isolated workspace
 COPY --from=pruner /app/out/full/ .
-
-RUN turbo build --filter=@transit-tracker/schedule-proxy
-
-# Prune production dependencies
+RUN pnpm turbo build --filter=@transit-tracker/schedule-proxy
 RUN pnpm prune --prod --no-optional
 RUN rm -rf ./**/*/src
 
-# Runner stage
-FROM alpine AS runner
+
+# Run schedule-proxy as a non-root user
+FROM node:${NODE_VERSION}-alpine AS runner
+
 RUN addgroup --system --gid 1001 nodejs \
     && adduser --system --uid 1001 nodejs
 USER nodejs
@@ -50,5 +47,8 @@ COPY --from=builder --chown=nodejs:nodejs /app .
 WORKDIR /app/apps/schedule-proxy
 
 ENV NODE_ENV=production
+ARG PORT=8080
+ENV PORT=${PORT}
+EXPOSE ${PORT}
 
 CMD ["node", "dist/main.mjs"]
