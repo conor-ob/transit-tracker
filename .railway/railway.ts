@@ -1,13 +1,31 @@
 import {
   defineRailway,
+  github,
   group,
   image,
   postgres,
   preserve,
   project,
+  type RailwayProvidedVariable,
+  type ReferencableServiceNode,
   redis,
   service,
 } from "railway/iac";
+
+function railwayPrivateNetworkingUrl(
+  target: ReferencableServiceNode<RailwayProvidedVariable>,
+): string {
+  return `http://${toReferenceSyntax(target, "RAILWAY_PRIVATE_DOMAIN")}:${toReferenceSyntax(target, "PORT")}`;
+}
+
+// The SDK only supports whole-value references, so use Railway's
+// `${{service.VAR}}` syntax to compose them into a string.
+function toReferenceSyntax<K extends string>(
+  target: ReferencableServiceNode<K>,
+  variable: NoInfer<K>,
+): string {
+  return `\${{${target.name}.${variable}}}`;
+}
 
 const FEEDS_CONFIG = `feeds:
   nta:
@@ -23,6 +41,11 @@ const FEEDS_CONFIG = `feeds:
 `;
 
 export default defineRailway(() => {
+  // Deploy a commit only once its GitHub checks (CI, Railway apply) pass
+  const transitTrackerApi = github("conor-ob/transit-tracker-api", {
+    checkSuites: true,
+  });
+
   const postgresDatabase = postgres("postgres", {
     region: "europe-west4-drams3a",
   });
@@ -52,10 +75,31 @@ export default defineRailway(() => {
     },
   });
 
+  // Proxies everything to the api over private networking, so the api needs
+  // no public domain
+  const gateway = service("gateway", {
+    source: transitTrackerApi,
+    env: {
+      PORT: "8080",
+      API_URL: railwayPrivateNetworkingUrl(api),
+    },
+    build: {
+      buildEnvironment: "V3",
+      builder: "DOCKERFILE",
+      dockerfilePath: "apps/gateway/Dockerfile",
+      watchPatterns: ["apps/gateway/**"],
+    },
+    deploy: {
+      multiRegionConfig: { "europe-west4-drams3a": { numReplicas: 1 } },
+      healthcheckPath: "/healthz",
+    },
+  });
+
   const database = group("database", [postgresDatabase, redisCache]);
   const backend = group("backend", [api]);
+  const gatewayGroup = group("gateway", [gateway]);
 
   return project("transit-tracker-api", {
-    resources: [backend, database],
+    resources: [backend, database, gatewayGroup],
   });
 });
