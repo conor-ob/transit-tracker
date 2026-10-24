@@ -95,7 +95,6 @@ export default defineRailway(() => {
       buildEnvironment: "V3",
       builder: "DOCKERFILE",
       dockerfilePath: "apps/schedule-proxy/Dockerfile",
-      watchPatterns: ["apps/schedule-proxy/**"],
     },
     deploy: {
       multiRegionConfig: { "europe-west4-drams3a": { numReplicas: 1 } },
@@ -117,7 +116,6 @@ export default defineRailway(() => {
       buildEnvironment: "V3",
       builder: "DOCKERFILE",
       dockerfilePath: "apps/gateway/Dockerfile",
-      watchPatterns: ["apps/gateway/**"],
     },
     deploy: {
       multiRegionConfig: { "europe-west4-drams3a": { numReplicas: 1 } },
