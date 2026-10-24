@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-# Applies Direction filters to the schedule between the gateway and the api.
+# Applies Direction filters to the schedule between the gateway and transit-tracker-api.
 # Built from the repo root so turbo can prune the workspace down to this app
 
 ARG NODE_VERSION=24

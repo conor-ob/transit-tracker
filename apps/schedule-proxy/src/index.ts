@@ -2,7 +2,7 @@ import { env } from "~/env/schema";
 import { createServer } from "~/server";
 
 const server = await createServer({
-  apiUrl: env.API_URL,
+  apiUrl: env.TRANSIT_TRACKER_API_URL,
   logger: { level: env.LOG_LEVEL },
 });
 

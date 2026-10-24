@@ -1,7 +1,7 @@
 {
   "name": "@transit-tracker/schedule-proxy",
   "private": true,
-  "description": "Applies Direction filters to the schedule between the gateway and the api",
+  "description": "Applies Direction filters to the schedule between the gateway and transit-tracker-api",
   "type": "module",
   "scripts": {
     "build": "tsdown",
