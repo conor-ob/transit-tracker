@@ -2,7 +2,6 @@ import {
   defineRailway,
   github,
   group,
-  image,
   postgres,
   preserve,
   project,
