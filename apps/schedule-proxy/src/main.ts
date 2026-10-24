@@ -1,4 +1,4 @@
-import { buildApp } from "./app.ts";
+import { buildApp } from "./app";
 
 const apiUrl = process.env.API_URL;
 if (!apiUrl) {

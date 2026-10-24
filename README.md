@@ -97,14 +97,16 @@ For the DART, Direction `0` is northbound (Howth/Malahide) and `1` is southbound
 
 ## Development
 
-Install dependencies with `pnpm install`, then:
+It's a [Turborepo](https://turborepo.com) monorepo on pnpm workspaces. Install dependencies with `pnpm install`, then:
 
 - `pnpm check`: Biome formatting, lint and import order
 - `pnpm check:fix`: apply Biome fixes
-- `pnpm typecheck`: type-check `.railway/railway.ts` and `apps/schedule-proxy`
-- `pnpm test`: run the `schedule-proxy` tests
+- `pnpm typecheck`: type-check `.railway/railway.ts` and every app
+- `pnpm build`: build every app (`schedule-proxy` is bundled with [tsdown](https://tsdown.dev) into `dist/main.mjs`)
+- `pnpm test`: run every app's tests
+- `pnpm dev`: run every app in watch mode (`schedule-proxy` needs `API_URL`)
 
-CI ([`ci.yaml`](.github/workflows/ci.yaml)) runs all three on every PR.
+CI ([`ci.yaml`](.github/workflows/ci.yaml)) runs the checks, typecheck, build and tests on every PR.
 
 ## Credits
 

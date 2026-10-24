@@ -6,7 +6,7 @@ import {
   parseRouteStopPairs,
   type RouteStopPair,
   toUpstreamRouteStopPairs,
-} from "./route-stop-pairs.ts";
+} from "./route-stop-pairs";
 
 describe("parseRouteStopPairs", () => {
   it("parses a Direction filter with a blank Offset", () => {

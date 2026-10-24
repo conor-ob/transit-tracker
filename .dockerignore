@@ -1,0 +1,18 @@
+# Docker builds run from the repo root (e.g. -f apps/schedule-proxy/Dockerfile .)
+# and turbo prune only needs source, the lockfile and workspace manifests
+
+node_modules
+**/node_modules
+.turbo
+**/.turbo
+dist
+**/dist
+
+.git
+.github
+.vscode
+**/.DS_Store
+
+**/.env
+**/.env.*
+!**/.env.example

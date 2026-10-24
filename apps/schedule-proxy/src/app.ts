@@ -1,7 +1,7 @@
 import websocket from "@fastify/websocket";
 import Fastify, { type FastifyServerOptions } from "fastify";
-import { scheduleRest } from "./rest.ts";
-import { scheduleWebSocket } from "./websocket.ts";
+import { scheduleRest } from "./rest";
+import { scheduleWebSocket } from "./websocket";
 
 export interface AppOptions {
   // The api's base URL, e.g. http://api:3000

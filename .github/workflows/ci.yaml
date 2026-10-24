@@ -40,10 +40,6 @@ jobs:
       - name: Check
         run: pnpm biome ci .
 
-      - name: Typecheck
+      - name: Typecheck, Build, Test
         if: ${{ !cancelled() && steps.setup.outcome == 'success' }}
-        run: pnpm typecheck
-
-      - name: Test
-        if: ${{ !cancelled() && steps.setup.outcome == 'success' }}
-        run: pnpm test
+        run: pnpm turbo run typecheck typecheck:railway build test --continue

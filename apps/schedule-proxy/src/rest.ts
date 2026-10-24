@@ -5,8 +5,8 @@ import {
   parseRouteStopPairs,
   type Trip,
   toUpstreamRouteStopPairs,
-} from "./route-stop-pairs.ts";
-import { upstreamHeaders } from "./upstream-headers.ts";
+} from "./route-stop-pairs";
+import { upstreamHeaders } from "./upstream-headers";
 
 const UPSTREAM_MAX_LIMIT = 10;
 

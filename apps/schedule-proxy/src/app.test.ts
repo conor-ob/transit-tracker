@@ -5,7 +5,7 @@ import type { AddressInfo } from "node:net";
 import { after, before, beforeEach, describe, it } from "node:test";
 import type { FastifyInstance } from "fastify";
 import { WebSocket, WebSocketServer } from "ws";
-import { buildApp } from "./app.ts";
+import { buildApp } from "./app";
 
 const DART = "BRAY-HOWTH-I";
 const PEARSE = "8220IR0134";
