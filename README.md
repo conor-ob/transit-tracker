@@ -42,10 +42,10 @@ After the first import, the API syncs the feed daily at 03:00 (`FEED_SYNC_SCHEDU
 
 The Railway project is defined in code in [`.railway/railway.ts`](.railway/railway.ts) and has these services:
 
-- **gateway**: Caddy ([`apps/gateway`](apps/gateway)) on the public domain. It sends WebSocket upgrades and `/schedule/*` to `schedule-proxy`, and everything else to `api`, both over private networking
+- **gateway**: Caddy ([`apps/gateway`](apps/gateway)) on the public domain. It sends WebSocket upgrades and `/schedule/*` to `schedule-proxy`, and everything else to `transit-tracker-api`, both over private networking
 - **schedule-proxy**: applies [Direction filters](#direction-filters) to the schedule ([`apps/schedule-proxy`](apps/schedule-proxy)), and uses `/healthz` as its health check
 
-- **api**: the `ghcr.io/tjhorner/transit-tracker-api:main` image on port 3000. It runs `pnpm gtfs:db:migrate` before each deploy and uses `/healthz` as its health check
+- **transit-tracker-api**: the `ghcr.io/tjhorner/transit-tracker-api:main` image on port 3000. It runs `pnpm gtfs:db:migrate` before each deploy and uses `/healthz` as its health check
 - **postgres**: Railway-managed, stores the imported GTFS data
 - **redis**: Railway-managed, used for caching, rate limiting and sync scheduling
 
@@ -71,8 +71,8 @@ These are `preserve()` in the config, so they're set in the Railway dashboard an
 
 ### After the first deploy
 
-1. Set the secrets above on the `api` service.
-2. Run the first GTFS import: `railway ssh --service api`, then `node ./dist/cli sync`.
+1. Set the secrets above on the `transit-tracker-api` service.
+2. Run the first GTFS import: `railway ssh --service transit-tracker-api`, then `node ./dist/cli sync`.
 3. Add the DNS records Railway shows for the `gateway` service's custom domain, `transit-tracker.conorob.me`, at your DNS provider.
 
 ## Using it with a Transit Tracker board
@@ -93,7 +93,7 @@ A DART station is a single stop served in both directions, so a board subscribed
 nta:BRAY-HOWTH-I,nta:8220IR0134,,1
 ```
 
-For the DART, Direction `0` is northbound (Howth/Malahide) and `1` is southbound (Bray/Greystones). The proxy strips the field before forwarding to `api`, drops trips travelling the other way (trips with no `directionId` are kept), and trims to the client's own limit. Pairs without a Direction are untouched. See [ADR 0001](docs/adr/0001-customize-schedules-in-a-proxy.md) for why this lives in a proxy rather than a fork.
+For the DART, Direction `0` is northbound (Howth/Malahide) and `1` is southbound (Bray/Greystones). The proxy strips the field before forwarding to `transit-tracker-api`, drops trips travelling the other way (trips with no `directionId` are kept), and trims to the client's own limit. Pairs without a Direction are untouched. See [ADR 0001](docs/adr/0001-customize-schedules-in-a-proxy.md) for why this lives in a proxy rather than a fork.
 
 ## Development
 

@@ -38,9 +38,9 @@
 		}
 	}
 
-	# proxy everything else to the api over private networking
+	# proxy everything else to transit-tracker-api over private networking
 	handle {
-		reverse_proxy {$API_URL} {
+		reverse_proxy {$TRANSIT_TRACKER_API_URL} {
 			header_up Host {upstream_hostport}
 		}
 	}

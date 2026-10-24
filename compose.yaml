@@ -1,5 +1,5 @@
 services:
-  api:
+  transit-tracker-api:
     image: ghcr.io/tjhorner/transit-tracker-api:main
     depends_on:
       postgres:
@@ -32,10 +32,10 @@ services:
       context: .
       dockerfile: apps/schedule-proxy/Dockerfile
     depends_on:
-      - api
+      - transit-tracker-api
     environment:
       PORT: "8080"
-      API_URL: "http://api:3000"
+      TRANSIT_TRACKER_API_URL: "http://transit-tracker-api:3000"
     ports:
       - "8080:8080"
 

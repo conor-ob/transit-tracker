@@ -2,6 +2,7 @@ import {
   defineRailway,
   github,
   group,
+  image,
   postgres,
   preserve,
   project,
@@ -53,12 +54,8 @@ export default defineRailway(() => {
     region: "europe-west4-drams3a",
   });
 
-  const api = service("api", {
-    // source: image("ghcr.io/conor-ob/transit-tracker-api:custom"),
-    source: github("conor-ob/transit-tracker-api", {
-      branch: "custom",
-      checkSuites: true,
-    }),
+  const transitTrackerApi = service("transit-tracker-api", {
+    source: image("ghcr.io/tjhorner/transit-tracker-api:main"),
     env: {
       PORT: "3000",
       DATABASE_URL: postgresDatabase.env.DATABASE_URL,
@@ -71,11 +68,6 @@ export default defineRailway(() => {
       NTA_API_KEY: preserve(),
       FEEDS_CONFIG,
     },
-    build: {
-      buildEnvironment: "V3",
-      builder: "DOCKERFILE",
-      dockerfilePath: "Dockerfile",
-    },
     preDeploy: "pnpm gtfs:db:migrate",
     deploy: {
       multiRegionConfig: { "europe-west4-drams3a": { numReplicas: 1 } },
@@ -84,12 +76,12 @@ export default defineRailway(() => {
   });
 
   // Applies Direction filters to the schedule, between the gateway and the
-  // unmodified api
+  // unmodified transit-tracker-api
   const scheduleProxy = service("schedule-proxy", {
     source: transitTracker,
     env: {
       PORT: "8080",
-      API_URL: railwayPrivateNetworkingUrl(api),
+      TRANSIT_TRACKER_API_URL: railwayPrivateNetworkingUrl(transitTrackerApi),
     },
     build: {
       buildEnvironment: "V3",
@@ -102,14 +94,14 @@ export default defineRailway(() => {
     },
   });
 
-  // Proxies everything to the api and schedule-proxy over private networking,
+  // Proxies everything to transit-tracker-api and schedule-proxy over private networking,
   // so neither needs a public domain
   const gateway = service("gateway", {
     source: transitTracker,
     domains: [{ domain: "transit-tracker.conorob.me", port: 8080 }],
     env: {
       PORT: "8080",
-      API_URL: railwayPrivateNetworkingUrl(api),
+      TRANSIT_TRACKER_API_URL: railwayPrivateNetworkingUrl(transitTrackerApi),
       SCHEDULE_PROXY_URL: railwayPrivateNetworkingUrl(scheduleProxy),
     },
     build: {
@@ -124,7 +116,7 @@ export default defineRailway(() => {
   });
 
   const database = group("database", [postgresDatabase, redisCache]);
-  const backend = group("backend", [api, scheduleProxy]);
+  const backend = group("backend", [transitTrackerApi, scheduleProxy]);
   const gatewayGroup = group("gateway", [gateway]);
 
   return project("transit-tracker", {

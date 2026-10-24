@@ -30,7 +30,7 @@
     "test": "turbo test",
     "compose:up": "docker compose up -d",
     "compose:down": "docker compose down",
-    "compose:sync": "docker compose run --rm api \"pnpm gtfs:db:migrate && node ./dist/cli sync\""
+    "compose:sync": "docker compose run --rm transit-tracker-api \"pnpm gtfs:db:migrate && node ./dist/cli sync\""
   },
   "engines": {
     "node": ">=24.19.0"

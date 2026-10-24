@@ -6,7 +6,7 @@ import registerScheduleRoute from "~/routes/schedule";
 import registerScheduleWebsocketRoute from "~/routes/schedule-websocket";
 
 export interface ServerOptions {
-  // The api's base URL, e.g. http://api:3000
+  // transit-tracker-api's base URL, e.g. http://transit-tracker-api:3000
   apiUrl: string;
   logger?: FastifyServerOptions["logger"];
 }

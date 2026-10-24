@@ -1,4 +1,4 @@
-# Caddy reverse proxy in front of the api
+# Caddy reverse proxy in front of transit-tracker-api
 FROM caddy:2-alpine
 
 COPY apps/gateway/Caddyfile /etc/caddy/Caddyfile

@@ -20,5 +20,5 @@
       "persistent": true
     }
   },
-  "globalEnv": ["NODE_ENV", "PORT", "API_URL", "LOG_LEVEL"]
+  "globalEnv": ["NODE_ENV", "PORT", "TRANSIT_TRACKER_API_URL", "LOG_LEVEL"]
 }
