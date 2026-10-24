@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsdown",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test \"src/**/*.test.ts\"",
+    "test": "vitest",
     "dev": "tsx watch src/main.ts",
     "start": "node dist/main.mjs"
   },
@@ -24,6 +24,7 @@
     "@types/ws": "^8.18.2",
     "tsdown": "catalog:",
     "tsx": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   }
 }

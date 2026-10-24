@@ -1,9 +1,8 @@
-import assert from "node:assert/strict";
 import { once } from "node:events";
 import { createServer, type IncomingMessage, type Server } from "node:http";
 import type { AddressInfo } from "node:net";
-import { after, before, beforeEach, describe, it } from "node:test";
 import type { FastifyInstance } from "fastify";
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { WebSocket, WebSocketServer } from "ws";
 import { buildApp } from "./app";
 
@@ -94,14 +93,14 @@ describe("schedule-proxy", () => {
   let app: FastifyInstance;
   let proxyUrl: string;
 
-  before(async () => {
+  beforeAll(async () => {
     fakeApi.server.listen(0);
     await once(fakeApi.server, "listening");
     app = await buildApp({ apiUrl: fakeApi.url });
     proxyUrl = await app.listen({ host: "127.0.0.1", port: 0 });
   });
 
-  after(async () => {
+  afterAll(async () => {
     await app.close();
     fakeApi.wss.close();
     fakeApi.server.close();
@@ -135,7 +134,7 @@ describe("schedule-proxy", () => {
 
   it("answers its health check", async () => {
     const response = await app.inject("/healthz");
-    assert.equal(response.statusCode, 200);
+    expect(response.statusCode).toBe(200);
   });
 
   describe("WebSocket", () => {
@@ -145,12 +144,13 @@ describe("schedule-proxy", () => {
         2,
       )) as [unknown, { event: string; data: { trips: typeof trips } }];
 
-      assert.deepEqual(heartbeat, { event: "heartbeat", data: null });
-      assert.equal(schedule.event, "schedule");
-      assert.deepEqual(
-        schedule.data.trips.map((trip) => trip.tripId),
-        ["trip-1", "trip-3", "trip-5"],
-      );
+      expect(heartbeat).toEqual({ event: "heartbeat", data: null });
+      expect(schedule.event).toBe("schedule");
+      expect(schedule.data.trips.map((trip) => trip.tripId)).toEqual([
+        "trip-1",
+        "trip-3",
+        "trip-5",
+      ]);
     });
 
     it("subscribes upstream without Direction filters, at upstream's maximum limit", async () => {
@@ -163,7 +163,7 @@ describe("schedule-proxy", () => {
         2,
       );
 
-      assert.deepEqual(fakeApi.wsMessages, [
+      expect(fakeApi.wsMessages).toEqual([
         {
           event: "schedule:subscribe",
           data: {
@@ -181,7 +181,7 @@ describe("schedule-proxy", () => {
         2,
       )) as [unknown, { data: { trips: typeof trips } }];
 
-      assert.deepEqual(schedule.data.trips, trips.slice(0, 5));
+      expect(schedule.data.trips).toEqual(trips.slice(0, 5));
     });
 
     it("rejects an invalid Direction without subscribing upstream", async () => {
@@ -190,28 +190,25 @@ describe("schedule-proxy", () => {
         1,
       );
 
-      assert.deepEqual(error, {
+      expect(error).toEqual({
         kind: "invalidInput",
         error: 'Invalid direction "2"; must be 0 or 1',
       });
-      assert.deepEqual(fakeApi.wsMessages, []);
+      expect(fakeApi.wsMessages).toEqual([]);
     });
 
     it("leaves an invalid limit for upstream to reject", async () => {
       await subscribe({ routeStopPairs: `${DART},${PEARSE},,1`, limit: 50 }, 2);
 
-      assert.equal(fakeApi.wsMessages[0]?.data.limit, 50);
+      expect(fakeApi.wsMessages[0]?.data.limit).toBe(50);
     });
 
     it("forwards the headers upstream identifies a Device by", async () => {
       await subscribe({ routeStopPairs: `${DART},${PEARSE}`, limit: 1 }, 2);
 
       const [request] = fakeApi.wsRequests;
-      assert.equal(request?.headers["x-device-id"], "device-1");
-      assert.equal(
-        request?.headers["x-forwarded-for"],
-        "203.0.113.7, 10.0.0.1",
-      );
+      expect(request?.headers["x-device-id"]).toBe("device-1");
+      expect(request?.headers["x-forwarded-for"]).toBe("203.0.113.7, 10.0.0.1");
     });
   });
 
@@ -221,11 +218,10 @@ describe("schedule-proxy", () => {
         `/schedule/${encodeURIComponent(`${DART},${PEARSE},,1`)}?limit=3`,
       );
 
-      assert.equal(response.statusCode, 200);
-      assert.deepEqual(
+      expect(response.statusCode).toBe(200);
+      expect(
         response.json().trips.map((trip: { tripId: string }) => trip.tripId),
-        ["trip-1", "trip-3", "trip-5"],
-      );
+      ).toEqual(["trip-1", "trip-3", "trip-5"]);
     });
 
     it("asks upstream for its maximum limit without Direction filters", async () => {
@@ -233,8 +229,7 @@ describe("schedule-proxy", () => {
         `/schedule/${encodeURIComponent(`${DART},${PEARSE},-300,1`)}?limit=3`,
       );
 
-      assert.equal(
-        fakeApi.restRequests[0]?.url,
+      expect(fakeApi.restRequests[0]?.url).toBe(
         `/schedule/${encodeURIComponent(`${DART},${PEARSE},-300`)}?limit=10`,
       );
     });
@@ -244,7 +239,7 @@ describe("schedule-proxy", () => {
         `/schedule/${encodeURIComponent(`${DART},${PEARSE}`)}?limit=4`,
       );
 
-      assert.deepEqual(response.json(), { trips: trips.slice(0, 4) });
+      expect(response.json()).toEqual({ trips: trips.slice(0, 4) });
     });
 
     it("defaults to upstream's limit of 10", async () => {
@@ -252,7 +247,7 @@ describe("schedule-proxy", () => {
         `/schedule/${encodeURIComponent(`${DART},${PEARSE}`)}`,
       );
 
-      assert.equal(response.json().trips.length, 10);
+      expect(response.json().trips).toHaveLength(10);
     });
 
     it("rejects an invalid Direction as a bad request", async () => {
@@ -260,12 +255,11 @@ describe("schedule-proxy", () => {
         `/schedule/${encodeURIComponent(`${DART},${PEARSE},,north`)}`,
       );
 
-      assert.equal(response.statusCode, 400);
-      assert.equal(
-        response.json().message,
+      expect(response.statusCode).toBe(400);
+      expect(response.json().message).toBe(
         'Invalid direction "north"; must be 0 or 1',
       );
-      assert.equal(fakeApi.restRequests.length, 0);
+      expect(fakeApi.restRequests).toHaveLength(0);
     });
 
     it("passes upstream errors through unchanged", async () => {
@@ -273,8 +267,8 @@ describe("schedule-proxy", () => {
         `/schedule/${encodeURIComponent(`${DART},${PEARSE},soon,1`)}`,
       );
 
-      assert.equal(response.statusCode, 400);
-      assert.deepEqual(response.json(), {
+      expect(response.statusCode).toBe(400);
+      expect(response.json()).toEqual({
         message: "Invalid offset; must be a number",
         error: "Bad Request",
         statusCode: 400,

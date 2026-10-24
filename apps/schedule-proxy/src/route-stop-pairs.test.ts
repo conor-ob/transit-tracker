@@ -1,5 +1,4 @@
-import assert from "node:assert/strict";
-import { describe, it } from "node:test";
+import { describe, expect, it } from "vitest";
 import {
   applyDirectionFilters,
   InvalidDirectionError,
@@ -10,7 +9,7 @@ import {
 
 describe("parseRouteStopPairs", () => {
   it("parses a Direction filter with a blank Offset", () => {
-    assert.deepEqual(parseRouteStopPairs("BRAY-HOWTH-I,8220IR0134,,1"), [
+    expect(parseRouteStopPairs("BRAY-HOWTH-I,8220IR0134,,1")).toEqual([
       {
         routeId: "BRAY-HOWTH-I",
         stopId: "8220IR0134",
@@ -21,7 +20,7 @@ describe("parseRouteStopPairs", () => {
   });
 
   it("parses a Direction filter with a numeric Offset", () => {
-    assert.deepEqual(parseRouteStopPairs("BRAY-HOWTH-I,8220IR0134,-300,0"), [
+    expect(parseRouteStopPairs("BRAY-HOWTH-I,8220IR0134,-300,0")).toEqual([
       {
         routeId: "BRAY-HOWTH-I",
         stopId: "8220IR0134",
@@ -32,8 +31,7 @@ describe("parseRouteStopPairs", () => {
   });
 
   it("parses pairs without a fourth field", () => {
-    assert.deepEqual(
-      parseRouteStopPairs("46A,8220DB000123;46A,8220DB000124,60"),
+    expect(parseRouteStopPairs("46A,8220DB000123;46A,8220DB000124,60")).toEqual(
       [
         { routeId: "46A", stopId: "8220DB000123", offset: "", direction: null },
         {
@@ -47,19 +45,16 @@ describe("parseRouteStopPairs", () => {
   });
 
   it("trims whitespace around each field", () => {
-    assert.deepEqual(parseRouteStopPairs(" 46A , 8220DB000123 , , 1 "), [
+    expect(parseRouteStopPairs(" 46A , 8220DB000123 , , 1 ")).toEqual([
       { routeId: "46A", stopId: "8220DB000123", offset: "", direction: "1" },
     ]);
   });
 
-  for (const direction of ["2", "-1", "north", "01"]) {
-    it(`rejects Direction "${direction}"`, () => {
-      assert.throws(
-        () => parseRouteStopPairs(`46A,8220DB000123,,${direction}`),
-        InvalidDirectionError,
-      );
-    });
-  }
+  it.each(["2", "-1", "north", "01"])('rejects Direction "%s"', (direction) => {
+    expect(() => parseRouteStopPairs(`46A,8220DB000123,,${direction}`)).toThrow(
+      InvalidDirectionError,
+    );
+  });
 });
 
 describe("toUpstreamRouteStopPairs", () => {
@@ -68,8 +63,7 @@ describe("toUpstreamRouteStopPairs", () => {
       "BRAY-HOWTH-I,8220IR0134,,1;BRAY-HOWTH-I,8220IR0135,-300,0;46A,8220DB000123",
     );
 
-    assert.equal(
-      toUpstreamRouteStopPairs(pairs),
+    expect(toUpstreamRouteStopPairs(pairs)).toBe(
       "BRAY-HOWTH-I,8220IR0134;BRAY-HOWTH-I,8220IR0135,-300;46A,8220DB000123",
     );
   });
@@ -100,7 +94,7 @@ describe("applyDirectionFilters", () => {
       trip("BRAY-HOWTH-I", "8220IR0134", "0"),
     ];
 
-    assert.deepEqual(applyDirectionFilters(trips, [southbound], 20), [
+    expect(applyDirectionFilters(trips, [southbound], 20)).toEqual([
       trip("BRAY-HOWTH-I", "8220IR0134", "1"),
     ]);
   });
@@ -108,7 +102,7 @@ describe("applyDirectionFilters", () => {
   it("keeps trips with a null directionId", () => {
     const trips = [trip("BRAY-HOWTH-I", "8220IR0134", null)];
 
-    assert.deepEqual(applyDirectionFilters(trips, [southbound], 20), trips);
+    expect(applyDirectionFilters(trips, [southbound], 20)).toEqual(trips);
   });
 
   it("leaves pairs without a Direction filter untouched", () => {
@@ -122,7 +116,7 @@ describe("applyDirectionFilters", () => {
       trip("46A", "8220DB000123", "1"),
     ];
 
-    assert.deepEqual(applyDirectionFilters(trips, pairs, 20), [
+    expect(applyDirectionFilters(trips, pairs, 20)).toEqual([
       trip("46A", "8220DB000123", "0"),
       trip("46A", "8220DB000123", "1"),
     ]);
@@ -134,7 +128,7 @@ describe("applyDirectionFilters", () => {
       trip("46A", "8220IR0134", "0"),
     ];
 
-    assert.deepEqual(applyDirectionFilters(trips, [southbound], 20), trips);
+    expect(applyDirectionFilters(trips, [southbound], 20)).toEqual(trips);
   });
 
   it("trims to the limit after filtering", () => {
@@ -146,7 +140,7 @@ describe("applyDirectionFilters", () => {
       trip("BRAY-HOWTH-I", "8220IR0134", "1"),
     ];
 
-    assert.equal(applyDirectionFilters(trips, [southbound], 2).length, 2);
-    assert.equal(applyDirectionFilters(trips, [southbound], 5).length, 3);
+    expect(applyDirectionFilters(trips, [southbound], 2)).toHaveLength(2);
+    expect(applyDirectionFilters(trips, [southbound], 5)).toHaveLength(3);
   });
 });
