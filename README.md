@@ -34,7 +34,7 @@ You need Docker, pnpm and an NTA API key, which you can get free from the [NTA d
    pnpm compose:up
    ```
 
-The API listens on <http://localhost:3000>, and `schedule-proxy` on <http://localhost:3001> (WebSocket at the root and `/schedule/...`, with [Direction filters](#direction-filters)). To check it's running, open <http://localhost:3000/feeds>, which lists the configured feeds. The OpenAPI spec is served at `/openapi`.
+The API listens on <http://localhost:3000>, and `schedule-proxy` on <http://localhost:8080> (WebSocket at the root and `/schedule/...`, with [Direction filters](#direction-filters)). To check it's running, open <http://localhost:3000/feeds>, which lists the configured feeds. The OpenAPI spec is served at `/openapi`.
 
 After the first import, the API syncs the feed daily at 03:00 (`FEED_SYNC_SCHEDULE`). Stop the stack with `pnpm compose:down`. To wipe the local database as well, run `docker compose down -v`.
 
