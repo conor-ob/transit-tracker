@@ -23,7 +23,10 @@
     "lint:fix": "biome lint --write .",
     "check": "biome check .",
     "check:fix": "biome check --write .",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "compose:up": "docker compose up -d",
+    "compose:down": "docker compose down",
+    "compose:sync": "docker compose run --rm api \"pnpm gtfs:db:migrate && node ./dist/cli sync\""
   },
   "engines": {
     "node": ">=24.19.0"

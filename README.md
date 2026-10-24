@@ -14,7 +14,7 @@ The feed code is part of the client-facing API, so don't change it once clients 
 
 ## Running locally
 
-You need Docker and an NTA API key, which you can get free from the [NTA developer portal](https://developer.nationaltransport.ie/).
+You need Docker, pnpm and an NTA API key, which you can get free from the [NTA developer portal](https://developer.nationaltransport.ie/).
 
 1. Create a `.env` file and put your key in it:
 
@@ -22,21 +22,21 @@ You need Docker and an NTA API key, which you can get free from the [NTA develop
    cp .env.example .env
    ```
 
-2. Run the database migrations and the first GTFS import. This is a one-off step, and the import takes a few minutes:
+2. Run the database migrations and the first GTFS import. The import takes a few minutes. Run it again whenever you want fresh data:
 
    ```sh
-   docker compose run --rm api "pnpm gtfs:db:migrate && node ./dist/cli sync"
+   pnpm compose:sync
    ```
 
 3. Start the stack:
 
    ```sh
-   docker compose up -d
+   pnpm compose:up
    ```
 
 The API listens on <http://localhost:3000>. To check it's running, open <http://localhost:3000/feeds>, which lists the configured feeds. The OpenAPI spec is served at `/openapi`.
 
-After the first import, the API schedules its own feed syncs through Redis.
+After the first import, the API syncs the feed daily at 03:00 (`FEED_SYNC_SCHEDULE`). Stop the stack with `pnpm compose:down`. To wipe the local database as well, run `docker compose down -v`.
 
 ## Deploying to Railway
 
