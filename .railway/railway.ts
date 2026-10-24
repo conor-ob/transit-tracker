@@ -63,7 +63,7 @@ export default defineRailway(() => {
         schedule: [0, 1, 2, 3, 4, 5, 6].map((day) => ({
           day,
           startHour: 2,
-          endHour: 4,
+          endHour: 3,
         })),
       },
     }),
