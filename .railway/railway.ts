@@ -55,7 +55,18 @@ export default defineRailway(() => {
   });
 
   const transitTrackerApi = service("transit-tracker-api", {
-    source: image("ghcr.io/tjhorner/transit-tracker-api:main"),
+    // Upstream only publishes a mutable `main` tag, so Railway redeploys
+    // whenever its digest changes. The window opens after the 03:00 feed sync.
+    source: image("ghcr.io/tjhorner/transit-tracker-api:main", {
+      autoUpdates: {
+        type: "patch",
+        schedule: [0, 1, 2, 3, 4, 5, 6].map((day) => ({
+          day,
+          startHour: 4,
+          endHour: 6,
+        })),
+      },
+    }),
     env: {
       PORT: "3000",
       DATABASE_URL: postgresDatabase.env.DATABASE_URL,
