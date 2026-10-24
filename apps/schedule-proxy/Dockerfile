@@ -47,8 +47,5 @@ COPY --from=builder --chown=nodejs:nodejs /app .
 WORKDIR /app/apps/schedule-proxy
 
 ENV NODE_ENV=production
-ARG PORT=8080
-ENV PORT=${PORT}
-EXPOSE ${PORT}
 
 CMD ["node", "dist/main.mjs"]
