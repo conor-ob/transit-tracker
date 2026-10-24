@@ -2,16 +2,21 @@ services:
   api:
     image: ghcr.io/tjhorner/transit-tracker-api:main
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
     environment:
       REDIS_URL: "redis://redis:6379"
       DATABASE_URL: "postgres://postgres:postgres@postgres:5432/gtfs?sslmode=disable"
+      FEED_SYNC_SCHEDULE: "0 3 * * *"
+      GTFS_RT_MIN_CACHE_AGE: "60s"
+      LOG_JSON: "true"
       FEEDS_CONFIG: |
         feeds:
           nta:
             name: NTA GTFS-R
-            description: NTA GTFS-R
+            description: The GTFS-R API contains real-time updates for services provided by Dublin Bus, Bus Éireann, and Go-Ahead Ireland
             gtfs:
               static:
                 url: https://www.transportforireland.ie/transitData/Data/GTFS_Realtime.zip
@@ -23,7 +28,7 @@ services:
       - "3000:3000"
 
   postgres:
-    image: postgres:17
+    image: postgres:18
     expose:
       - "5432"
     environment:
@@ -31,10 +36,15 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: gtfs
     volumes:
-      - "db:/var/lib/postgresql/data"
+      - "db:/var/lib/postgresql"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U postgres -d gtfs"]
+      interval: 2s
+      timeout: 5s
+      retries: 15
 
   redis:
-    image: redis:6
+    image: redis:8
     expose:
       - "6379"
 
