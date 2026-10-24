@@ -1,0 +1,42 @@
+services:
+  api:
+    image: ghcr.io/tjhorner/transit-tracker-api:main
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      REDIS_URL: "redis://redis:6379"
+      DATABASE_URL: "postgres://postgres:postgres@postgres:5432/gtfs?sslmode=disable"
+      FEEDS_CONFIG: |
+        feeds:
+          nta:
+            name: NTA GTFS-R
+            description: NTA GTFS-R
+            gtfs:
+              static:
+                url: https://www.transportforireland.ie/transitData/Data/GTFS_Realtime.zip
+              rtTripUpdates:
+                url: https://api.nationaltransport.ie/gtfsr/v2/TripUpdates
+                headers:
+                  x-api-key: ${NTA_API_KEY}
+    ports:
+      - "3000:3000"
+
+  postgres:
+    image: postgres:17
+    expose:
+      - "5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: gtfs
+    volumes:
+      - "db:/var/lib/postgresql/data"
+
+  redis:
+    image: redis:6
+    expose:
+      - "6379"
+
+volumes:
+  db:
