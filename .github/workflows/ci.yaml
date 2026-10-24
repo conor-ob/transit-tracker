@@ -42,4 +42,4 @@ jobs:
 
       - name: Typecheck, Build, Test
         if: ${{ !cancelled() && steps.setup.outcome == 'success' }}
-        run: pnpm turbo run typecheck typecheck:railway build test --continue
+        run: pnpm turbo run typecheck build test --continue

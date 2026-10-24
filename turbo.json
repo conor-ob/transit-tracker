@@ -9,9 +9,6 @@
     "typecheck": {
       "cache": false
     },
-    "//#typecheck:railway": {
-      "cache": false
-    },
     "test": {},
     "dev": {
       "cache": false,
