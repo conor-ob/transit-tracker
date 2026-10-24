@@ -40,22 +40,47 @@ After the first import, the API schedules its own feed syncs through Redis.
 
 ## Deploying to Railway
 
-The Railway project has three services:
+The Railway project is defined in code in [`.railway/railway.ts`](.railway/railway.ts) and has three services:
 
-- **api**: the `ghcr.io/tjhorner/transit-tracker-api:main` image, exposed publicly on port 3000
-- **Postgres**: Railway-managed, stores the imported GTFS data
-- **Redis**: Railway-managed, used for caching, rate limiting and sync scheduling
+- **api**: the `ghcr.io/tjhorner/transit-tracker-api:main` image on port 3000. It runs `pnpm gtfs:db:migrate` before each deploy and uses `/healthz` as its health check
+- **postgres**: Railway-managed, stores the imported GTFS data
+- **redis**: Railway-managed, used for caching, rate limiting and sync scheduling
 
-Set these variables on the `api` service:
+Feeds sync daily at 03:00 (`FEED_SYNC_SCHEDULE`).
+
+### Deploys
+
+Deploys run from GitHub Actions ([`deploy.yaml`](.github/workflows/deploy.yaml)) using the `RAILWAY_TOKEN` repo secret:
+
+- A PR that changes `.railway/` runs `railway config plan` and posts the plan as a comment.
+- Merging that PR to `main` applies exactly that plan.
+
+To preview a plan locally, run `railway link` and then `railway config plan`. Planning doesn't change anything on Railway.
+
+### Secrets
+
+These are `preserve()` in the config, so they're set in the Railway dashboard and never committed:
 
 | Variable | Value |
 | -------- | ----- |
-| `DATABASE_URL` | `${{Postgres.DATABASE_URL}}` |
-| `REDIS_URL` | `${{Redis.REDIS_URL}}` |
 | `NTA_API_KEY` | your NTA API key |
-| `FEEDS_CONFIG` | the `feeds:` YAML from `compose.yaml`, with the key set to `${{NTA_API_KEY}}` |
+| `INTERNAL_API_KEY` | a long random string, e.g. from `openssl rand -hex 32`. Without it, internal endpoints are open to anyone |
 
-Set the service's pre-deploy command to `pnpm gtfs:db:migrate`. After the first deploy, run the initial import once with `railway ssh` and then `node ./dist/cli sync`.
+### After the first deploy
+
+1. Set the secrets above on the `api` service.
+2. Run the first GTFS import: `railway ssh --service api`, then `node ./dist/cli sync`.
+3. Generate a public domain for `api` on port 3000.
+
+## Development
+
+Install dependencies with `pnpm install`, then:
+
+- `pnpm check`: Biome formatting, lint and import order
+- `pnpm check:fix`: apply Biome fixes
+- `pnpm typecheck`: type-check `.railway/railway.ts`
+
+CI ([`ci.yaml`](.github/workflows/ci.yaml)) runs both checks on every PR.
 
 ## Credits
 
