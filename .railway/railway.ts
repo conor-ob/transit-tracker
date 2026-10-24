@@ -60,8 +60,37 @@ export default defineRailway(() => {
     source: image("ghcr.io/tjhorner/transit-tracker-api:main", {
       autoUpdates: {
         type: "patch",
-        schedule: [0, 1, 2, 3, 4, 5, 6].map((day) => ({
-          day,
+        schedule: [
+          {
+            day: 0,
+            label: "Sunday",
+          },
+          {
+            day: 1,
+            label: "Monday",
+          },
+          {
+            day: 2,
+            label: "Tuesday",
+          },
+          {
+            day: 3,
+            label: "Wednesday",
+          },
+          {
+            day: 4,
+            label: "Thursday",
+          },
+          {
+            day: 5,
+            label: "Friday",
+          },
+          {
+            day: 6,
+            label: "Saturday",
+          },
+        ].map((window) => ({
+          day: window.day,
           startHour: 2,
           endHour: 3,
         })),
