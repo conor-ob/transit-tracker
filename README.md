@@ -70,7 +70,17 @@ These are `preserve()` in the config, so they're set in the Railway dashboard an
 
 1. Set the secrets above on the `api` service.
 2. Run the first GTFS import: `railway ssh --service api`, then `node ./dist/cli sync`.
-3. Generate a public domain for `api` on port 3000.
+3. Add the DNS records Railway shows for the `gateway` service's custom domain, `transit-tracker.conorob.me`, at your DNS provider.
+
+## Using it with a Transit Tracker board
+
+This API is the backend for [Transit Tracker](https://transit-tracker.eastsideurbanism.org/), an open-source DIY arrivals board built on an ESP32-S3 and an LED matrix. The board doesn't read GTFS itself because it doesn't have the memory or CPU to process it. Instead it holds a WebSocket open to an API server, which sends it a small list of upcoming trips. By default boards connect to the community server at `tt.horner.tj`. Pointing them at this deployment gives them the Transport for Ireland feed. The [Transit Tracker docs](https://eastsideurbanism.github.io/transit-tracker) cover building a board and the self-hosting option.
+
+Three upstream projects make up the stack. This repo only deploys the first. Use the other two to customise what a board shows or to build your own:
+
+- **[transit-tracker-api](https://github.com/tjhorner/transit-tracker-api)**: the server this repo deploys. It imports GTFS, GTFS-Realtime, OneBusAway, HAFAS or MVG data and streams trips for chosen route/stop pairs over WebSocket. It also serves a REST API (`/feeds`, `/stops/within/...`, `/schedule/...`) that the configurator uses to search stops and routes. Change it to add a new kind of data source by implementing its `FeedProvider` interface. To add another GTFS agency, just add a feed to `FEEDS_CONFIG`.
+- **[transit-tracker-configurator](https://github.com/tjhorner/transit-tracker-configurator)**: the web app at [transit-tracker.eastsideurbanism.org/configurator](https://transit-tracker.eastsideurbanism.org/configurator), written in SvelteKit. It flashes firmware over USB, sets up Wi-Fi, picks stops and routes from a map, and sets route colours, abbreviations, walking-time offsets and the display layout. It pushes these settings to the board over USB or the local network, or exports them as ESPHome YAML. To use this deployment, open **Advanced → API Server** in the hosted configurator and enter this deployment's public `https://` URL. The configurator checks `/feeds` before saving, and the upstream API enables CORS, so this works without any changes here. Build it yourself with `PUBLIC_API_HOST` set to change the default server, for example so it starts on Irish stops.
+- **[esphome-transit-tracker](https://github.com/tjhorner/esphome-transit-tracker)**: the `transit_tracker` [ESPHome](https://esphome.io/) external component that runs on the board. It connects to the API, then draws the schedule on any ESPHome display (it's tuned for a 128x64 HUB75 matrix). Use it directly to put departures on your own hardware or into your own ESPHome or Home Assistant config. Set `base_url` to this deployment with a `wss://` scheme, and optionally set `feed_code: nta`. The configurator's "Generate YAML" button writes the `transit_tracker:` block for you. [`examples/matrix-portal-s3.yaml`](https://github.com/tjhorner/esphome-transit-tracker/blob/main/examples/matrix-portal-s3.yaml) is a complete device config.
 
 ## Development
 

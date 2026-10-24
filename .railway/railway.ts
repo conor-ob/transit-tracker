@@ -2,7 +2,6 @@ import {
   defineRailway,
   github,
   group,
-  image,
   postgres,
   preserve,
   project,
@@ -55,7 +54,11 @@ export default defineRailway(() => {
   });
 
   const api = service("api", {
-    source: image("ghcr.io/tjhorner/transit-tracker-api:main"),
+    // source: image("ghcr.io/conor-ob/transit-tracker-api:custom"),
+    source: github("conor-ob/transit-tracker-api", {
+      branch: "custom",
+      checkSuites: true,
+    }),
     env: {
       PORT: "3000",
       DATABASE_URL: postgresDatabase.env.DATABASE_URL,
@@ -68,6 +71,11 @@ export default defineRailway(() => {
       NTA_API_KEY: preserve(),
       FEEDS_CONFIG,
     },
+    build: {
+      buildEnvironment: "V3",
+      builder: "DOCKERFILE",
+      dockerfilePath: "Dockerfile",
+    },
     preDeploy: "pnpm gtfs:db:migrate",
     deploy: {
       multiRegionConfig: { "europe-west4-drams3a": { numReplicas: 1 } },
@@ -79,6 +87,7 @@ export default defineRailway(() => {
   // no public domain
   const gateway = service("gateway", {
     source: transitTracker,
+    domains: [{ domain: "transit-tracker.conorob.me", port: 8080 }],
     env: {
       PORT: "8080",
       API_URL: railwayPrivateNetworkingUrl(api),
