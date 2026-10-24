@@ -43,3 +43,7 @@ jobs:
       - name: Typecheck
         if: ${{ !cancelled() && steps.setup.outcome == 'success' }}
         run: pnpm typecheck
+
+      - name: Test
+        if: ${{ !cancelled() && steps.setup.outcome == 'success' }}
+        run: pnpm test
