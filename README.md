@@ -1,4 +1,4 @@
-# transit-tracker-api
+# transit-tracker
 
 A deployment of [tjhorner/transit-tracker-api](https://github.com/tjhorner/transit-tracker-api) configured for Irish public transport, using the National Transport Authority's GTFS and GTFS-Realtime feeds. It runs locally with Docker Compose and is deployed to [Railway](https://railway.com).
 

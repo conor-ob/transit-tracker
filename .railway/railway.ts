@@ -42,7 +42,7 @@ const FEEDS_CONFIG = `feeds:
 
 export default defineRailway(() => {
   // Deploy a commit only once its GitHub checks (CI, Railway apply) pass
-  const transitTrackerApi = github("conor-ob/transit-tracker-api", {
+  const transitTracker = github("conor-ob/transit-tracker", {
     checkSuites: true,
   });
 
@@ -78,7 +78,7 @@ export default defineRailway(() => {
   // Proxies everything to the api over private networking, so the api needs
   // no public domain
   const gateway = service("gateway", {
-    source: transitTrackerApi,
+    source: transitTracker,
     env: {
       PORT: "8080",
       API_URL: railwayPrivateNetworkingUrl(api),
@@ -99,7 +99,7 @@ export default defineRailway(() => {
   const backend = group("backend", [api]);
   const gatewayGroup = group("gateway", [gateway]);
 
-  return project("transit-tracker-api", {
+  return project("transit-tracker", {
     resources: [backend, database, gatewayGroup],
   });
 });

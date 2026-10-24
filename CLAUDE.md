@@ -2,7 +2,7 @@
 
 ### Issue tracker
 
-Issues are tracked in GitHub Issues for conor-ob/transit-tracker-api via the `gh` CLI. See `docs/agents/issue-tracker.md`.
+Issues are tracked in GitHub Issues for conor-ob/transit-tracker via the `gh` CLI. See `docs/agents/issue-tracker.md`.
 
 ### Triage labels
 
