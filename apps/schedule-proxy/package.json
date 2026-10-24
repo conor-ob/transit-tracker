@@ -10,9 +10,6 @@
     "dev": "tsx watch src/main.ts",
     "start": "node dist/main.mjs"
   },
-  "engines": {
-    "node": ">=24.19.0"
-  },
   "dependencies": {
     "@fastify/websocket": "^11.3.4",
     "dotenv": "catalog:",
