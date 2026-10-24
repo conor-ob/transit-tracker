@@ -15,8 +15,10 @@
   },
   "dependencies": {
     "@fastify/websocket": "^11.3.4",
+    "dotenv": "catalog:",
     "fastify": "^5.12.7",
-    "ws": "^8.22.0"
+    "ws": "^8.22.0",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@total-typescript/tsconfig": "catalog:",

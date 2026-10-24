@@ -1,17 +1,13 @@
 import { buildApp } from "./app";
-
-const apiUrl = process.env.API_URL;
-if (!apiUrl) {
-  throw new Error("API_URL is required");
-}
+import { env } from "./env/schema";
 
 const app = await buildApp({
-  apiUrl: apiUrl.replace(/\/$/, ""),
-  logger: { level: process.env.LOG_LEVEL ?? "info" },
+  apiUrl: env.API_URL,
+  logger: { level: env.LOG_LEVEL },
 });
 
 // Railway's private network is IPv6, so listen on every address
-await app.listen({ host: "::", port: Number(process.env.PORT ?? 8080) });
+await app.listen({ host: "::", port: env.PORT });
 
 for (const signal of ["SIGINT", "SIGTERM"]) {
   process.once(signal, () => {

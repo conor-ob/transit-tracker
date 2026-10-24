@@ -104,7 +104,7 @@ It's a [Turborepo](https://turborepo.com) monorepo on pnpm workspaces. Install d
 - `pnpm typecheck`: type-check every app
 - `pnpm build`: build every app (`schedule-proxy` is bundled with [tsdown](https://tsdown.dev) into `dist/main.mjs`)
 - `pnpm test`: run every app's tests
-- `pnpm dev`: run every app in watch mode (`schedule-proxy` needs `API_URL`)
+- `pnpm dev`: run every app in watch mode (copy `apps/schedule-proxy/.env.example` to `.env` first; the env is validated at startup against [`src/env/schema.ts`](apps/schedule-proxy/src/env/schema.ts))
 
 CI ([`ci.yaml`](.github/workflows/ci.yaml)) runs the checks, typecheck, build and tests on every PR.
 
