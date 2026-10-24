@@ -55,7 +55,7 @@ export default defineRailway(() => {
   });
 
   const api = service("api", {
-    source: image("ghcr.io/tjhorner/transit-tracker-api:main"),
+    source: image("ghcr.io/conor-ob/transit-tracker-api:custom"),
     env: {
       PORT: "3000",
       DATABASE_URL: postgresDatabase.env.DATABASE_URL,
