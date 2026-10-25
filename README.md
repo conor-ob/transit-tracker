@@ -36,7 +36,7 @@ You need Docker, pnpm and an NTA API key, which you can get free from the [NTA d
 
 The API listens on <http://localhost:3000>, and `schedule-proxy` on <http://localhost:8080> (WebSocket at the root and `/schedule/...`, with [Direction filters](#direction-filters)). To check it's running, open <http://localhost:3000/feeds>, which lists the configured feeds. The OpenAPI spec is served at `/openapi`.
 
-After the first import, the API syncs the feed daily at 03:00 (`FEED_SYNC_SCHEDULE`). Stop the stack with `pnpm compose:down`. To wipe the local database as well, run `docker compose down -v`.
+After the first import, the API syncs the feed daily at 03:00 UTC (`FEED_SYNC_SCHEDULE`). Stop the stack with `pnpm compose:down`. To wipe the local database as well, run `docker compose down -v`.
 
 ## Deploying to Railway
 
@@ -49,7 +49,7 @@ The Railway project is defined in code in [`.railway/railway.ts`](.railway/railw
 - **postgres**: Railway-managed, stores the imported GTFS data
 - **redis**: Railway-managed, used for caching, rate limiting and sync scheduling
 
-Feeds sync daily at 03:00 (`FEED_SYNC_SCHEDULE`).
+Feeds sync daily at 03:00 UTC (`FEED_SYNC_SCHEDULE`), which is 03:00 in Irish winter time and 04:00 in summer time, when the fewest Devices are watching. A sync blocks schedule requests while it imports. Railway redeploys `transit-tracker-api` when upstream publishes a new `main` image, but never between 02:00 and 04:00 UTC, so a redeploy never interrupts a sync.
 
 ### Deploys
 
