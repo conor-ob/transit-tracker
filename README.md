@@ -98,7 +98,7 @@ For the DART, Direction `0` is northbound (Howth/Malahide) and `1` is southbound
 
 ## Configuring the Device
 
-Neither the configurator nor the firmware's YAML `stops:` option can write a Direction filter, so the Device's settings are versioned here in [`scripts/configure-device.sh`](scripts/configure-device.sh). The script sets the server, feed code, schedule, route colours and list mode over the Device's web server, then restarts it. The settings it can set are the ones the stock firmware's [`transit-tracker.yaml`](https://github.com/EastsideUrbanism/transit-tracker/blob/main/firmware/transit-tracker.yaml) defines. It needs `curl` and `jq`, and a machine on the same LAN as the Device:
+Neither the configurator nor the firmware's YAML `stops:` option can write a Direction filter, so the Device's settings are versioned here in [`scripts/configure-device.sh`](scripts/configure-device.sh). The script sets every setting the configurator writes (server, feed code, schedule, route styles, list mode, header text, abbreviations, time display and units, headsign scrolling and time strings) over the Device's web server, then restarts it. It leaves orientation, auto-update and brightness to the Device. The settings it can set are the ones the stock firmware's [`transit-tracker.yaml`](https://github.com/EastsideUrbanism/transit-tracker/blob/main/firmware/transit-tracker.yaml) defines. It needs `curl` and `jq`, and a machine on the same LAN as the Device:
 
 ```sh
 scripts/configure-device.sh <device ip>

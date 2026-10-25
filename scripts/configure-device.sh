@@ -35,6 +35,22 @@ route_styles=$(
   echo "${styles[*]}"
 )
 list_mode="sequential"
+# Empty, so every row goes to trips
+header_text=""
+# from;to, one per line, replacing text inside headsigns
+abbreviations=$(
+  IFS=$'\n'
+  replacements=(
+    "Brides Glen Luas;Brides Glen"
+  )
+  echo "${replacements[*]}"
+)
+time_display="departure"
+time_units="long"
+now_str="Now"
+min_long_str="min"
+min_short_str="m"
+hours_short_str="h"
 
 # The Device's web server refuses a POST without Content-Length.
 post() {
@@ -50,6 +66,15 @@ post "text/feed_code_config/set?value=$(encode "$feed_code")"
 post "text/schedule_config/set?value=$(encode "$schedule")"
 post "text/route_styles_config/set?value=$(encode "$route_styles")"
 post "select/list_mode_config/set?option=$(encode "$list_mode")"
+post "text/header_text_config/set?value=$(encode "$header_text")"
+post "text/abbreviations_config/set?value=$(encode "$abbreviations")"
+post "select/time_display_config/set?option=$(encode "$time_display")"
+post "select/time_units_config/set?option=$(encode "$time_units")"
+post "switch/scroll_headsigns/turn_off"
+post "text/now_str_config/set?value=$(encode "$now_str")"
+post "text/min_long_str_config/set?value=$(encode "$min_long_str")"
+post "text/min_short_str_config/set?value=$(encode "$min_short_str")"
+post "text/hours_short_str_config/set?value=$(encode "$hours_short_str")"
 post "button/Restart/press"
 
 echo "Configured $1, restarting"
