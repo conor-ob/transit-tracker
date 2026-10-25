@@ -104,7 +104,9 @@ Neither the configurator nor the firmware's YAML `stops:` option can write a Dir
 scripts/configure-device.sh <device ip>
 ```
 
-It stops at the first request that fails, so the Device is never restarted half-configured.
+It logs each request with its timing and retries a request up to 5 times, since the Device can be slow to answer on a poor 2.4 GHz network. It stops at the first request that still fails, so the Device is never restarted half-configured.
+
+To find the Device's IP, press its up and down buttons together. The display switches to a page showing the IP, and pressing both again goes back to the schedule. The firmware also announces the Device over mDNS as `transit-tracker-xxxxxx.local`, where `xxxxxx` is the end of its MAC address, and the script accepts that name in place of an IP. On macOS, list the Devices on the LAN with `dns-sd -B _esphomelib._tcp`, and resolve one to an IP with `dns-sd -G v4 transit-tracker-xxxxxx.local`. The router's DHCP client list shows the same name, and a DHCP reservation there keeps the IP from changing.
 
 With `feed_code_config` set to `nta`, route and stop IDs in `schedule_config` go without the `nta:` prefix (a prefixed ID matches no trips). The firmware caps `schedule_config` at 255 characters, which limits how many Route-stop pairs a Device can have.
 
