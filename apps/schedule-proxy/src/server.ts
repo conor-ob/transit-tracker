@@ -12,7 +12,13 @@ export interface ServerOptions {
 }
 
 export async function createServer({ apiUrl, logger = false }: ServerOptions) {
-  const fastify = Fastify({ logger });
+  const fastify = Fastify({
+    logger,
+    // Upstream (Express) has no limit on a param, only Node's 16 KiB limit on
+    // request headers, so a URL can't be longer than that anyway. Fastify's
+    // default of 100 rejects even a few route/stop pairs
+    maxParamLength: 16 * 1024,
+  });
 
   await registerWebsocketPlugin(fastify);
   registerHealthCheckRoute(fastify);
