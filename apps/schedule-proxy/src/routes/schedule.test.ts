@@ -42,6 +42,21 @@ describe("REST schedule", () => {
     expect(response.json().trips).toHaveLength(10);
   });
 
+  it("accepts as many pairs as upstream allows", async () => {
+    // Upstream's maximum of 25 pairs, with NTA-length IDs and Direction filters
+    const pairs = Array.from(
+      { length: 25 },
+      (_, i) => `nta:3 ${100 + i} e a,nta:8250DB0030${10 + i},-300,0`,
+    ).join(";");
+
+    const response = await proxy.server.inject(
+      `/schedule/${encodeURIComponent(pairs)}`,
+    );
+
+    expect(response.statusCode).toBe(200);
+    expect(proxy.fakeApi.restRequests).toHaveLength(1);
+  });
+
   it("rejects an invalid Direction as a bad request", async () => {
     const response = await proxy.server.inject(
       `/schedule/${encodeURIComponent(`${DART},${PEARSE},,north`)}`,
