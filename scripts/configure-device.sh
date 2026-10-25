@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Configure the Device over its web server, then restart it.
-# Usage: scripts/configure-device.sh <device ip>
+# Usage: scripts/configure-device.sh <device ip or transit-tracker-xxxxxx.local>
+# README.md#configuring-the-device covers finding the IP.
 set -euo pipefail
 
 if [ $# -ne 1 ]; then
@@ -52,9 +53,19 @@ min_long_str="min"
 min_short_str="m"
 hours_short_str="h"
 
-# The Device's web server refuses a POST without Content-Length.
+# The Device's web server refuses a POST without Content-Length. On a poor
+# 2.4 GHz network the Device answers slowly or not at all, so time out and retry.
+# Logs each request without its query, timed in whole seconds (macOS bash 3.2
+# has no sub-second clock).
 post() {
-  curl --fail --silent --show-error -X POST -H "Content-Length: 0" "$device/$1"
+  local path="${1%%\?*}" start=$SECONDS
+  echo "$(date +%H:%M:%S) POST /$path"
+  curl --fail --silent --show-error --connect-timeout 10 --max-time 30 --retry 5 --retry-all-errors \
+    -o /dev/null -X POST -H "Content-Length: 0" "$device/$1" || {
+    echo "$(date +%H:%M:%S) Failed: POST /$1 after $((SECONDS - start))s" >&2
+    exit 1
+  }
+  echo "$(date +%H:%M:%S) Done: POST /$path in $((SECONDS - start))s"
 }
 
 encode() {
@@ -70,7 +81,8 @@ post "text/header_text_config/set?value=$(encode "$header_text")"
 post "text/abbreviations_config/set?value=$(encode "$abbreviations")"
 post "select/time_display_config/set?option=$(encode "$time_display")"
 post "select/time_units_config/set?option=$(encode "$time_units")"
-post "switch/scroll_headsigns/turn_off"
+# Named entities are addressed by name, unnamed (internal) ones by ID.
+post "switch/$(encode "Scroll Headsigns")/turn_off"
 post "text/now_str_config/set?value=$(encode "$now_str")"
 post "text/min_long_str_config/set?value=$(encode "$min_long_str")"
 post "text/min_short_str_config/set?value=$(encode "$min_short_str")"
