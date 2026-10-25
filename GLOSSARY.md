@@ -23,3 +23,7 @@ _Avoid_: Headsign, platform, northbound/southbound
 **Direction filter**:
 A Direction attached to a Route-stop pair, limiting that pair to trips travelling in that Direction.
 _Avoid_: Headsign filter, platform filter
+
+**Route style**:
+A route's colour and display name, set on the Device per route. It replaces the name upstream gives the route, not only its colour.
+_Avoid_: Route colour rule, colour rule

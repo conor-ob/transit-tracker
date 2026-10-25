@@ -107,7 +107,7 @@ It stops at the first request that fails, so the Device is never restarted half-
 
 With `feed_code_config` set to `nta`, route and stop IDs in `schedule_config` go without the `nta:` prefix (a prefixed ID matches no trips). The firmware caps `schedule_config` at 255 characters, which limits how many Route-stop pairs a Device can have.
 
-Route colours are set per route in `route_styles_config`, one `route;name;colour` line each, with route IDs unprefixed as in the schedule. The name replaces the route's own name on the Device, so each line repeats it. Routes without a line fall back to the feed's colour, or the firmware's default when the feed has none.
+Route styles are set in `route_styles_config`, one `route;name;colour` line per route, with route IDs unprefixed as in the schedule. The name replaces the route's own name on the Device, so each line repeats it. Routes without a line fall back to the feed's colour, or the firmware's default when the feed has none.
 
 ## Development
 
