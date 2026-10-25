@@ -23,6 +23,17 @@ schedule=$(
   )
   echo "${pairs[*]}"
 )
+# route;name;colour, one per line. The name replaces the route's own on the Device.
+route_styles=$(
+  IFS=$'\n'
+  styles=(
+    "BRAY-HOWTH-I;DART;2F8539"
+    "3 111 e a;111;0052B7"
+    "3 59 d a;59;0052B7"
+    "1 7D c a;7D;F3C936"
+  )
+  echo "${styles[*]}"
+)
 list_mode="sequential"
 
 # The Device's web server refuses a POST without Content-Length.
@@ -37,6 +48,7 @@ encode() {
 post "text/base_url_config/set?value=$(encode "$base_url")"
 post "text/feed_code_config/set?value=$(encode "$feed_code")"
 post "text/schedule_config/set?value=$(encode "$schedule")"
+post "text/route_styles_config/set?value=$(encode "$route_styles")"
 post "select/list_mode_config/set?option=$(encode "$list_mode")"
 post "button/Restart/press"
 

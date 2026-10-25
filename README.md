@@ -97,7 +97,7 @@ For the DART, Direction `0` is northbound (Howth/Malahide) and `1` is southbound
 
 ## Configuring the Device
 
-Neither the configurator nor the firmware's YAML `stops:` option can write a Direction filter, so the Device's settings are versioned here in [`scripts/configure-device.sh`](scripts/configure-device.sh). The script sets the server, feed code, schedule and list mode over the Device's web server, then restarts it. It needs `curl` and `jq`, and a machine on the same LAN as the Device:
+Neither the configurator nor the firmware's YAML `stops:` option can write a Direction filter, so the Device's settings are versioned here in [`scripts/configure-device.sh`](scripts/configure-device.sh). The script sets the server, feed code, schedule, route colours and list mode over the Device's web server, then restarts it. It needs `curl` and `jq`, and a machine on the same LAN as the Device:
 
 ```sh
 scripts/configure-device.sh <device ip>
@@ -106,6 +106,8 @@ scripts/configure-device.sh <device ip>
 It stops at the first request that fails, so the Device is never restarted half-configured.
 
 With `feed_code_config` set to `nta`, route and stop IDs in `schedule_config` go without the `nta:` prefix (a prefixed ID matches no trips). The firmware caps `schedule_config` at 255 characters, which limits how many Route-stop pairs a Device can have.
+
+Route colours are set per route in `route_styles_config`, one `route;name;colour` line each, with route IDs unprefixed as in the schedule. The name replaces the route's own name on the Device, so each line repeats it. Routes without a line fall back to the feed's colour, or the firmware's default when the feed has none.
 
 ## Development
 
