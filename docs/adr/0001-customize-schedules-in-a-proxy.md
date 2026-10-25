@@ -1,6 +1,6 @@
 # Customize schedules in a proxy, not a fork
 
-Our customizations to the schedule (starting with Direction filters, later things like route colours) live in our own `schedule-proxy` service in front of the unmodified upstream `transit-tracker-api` image, not in a fork of it. This keeps every change in this repo and avoids carrying a rebase against upstream, at the cost of filtering after upstream has applied its trip limit, so the proxy asks upstream for the maximum and trims the result itself.
+Our customizations to the schedule (starting with Direction filters) live in our own `schedule-proxy` service in front of the unmodified upstream `transit-tracker-api` image, not in a fork of it. This keeps every change in this repo and avoids carrying a rebase against upstream, at the cost of filtering after upstream has applied its trip limit, so the proxy asks upstream for the maximum and trims the result itself.
 
 ## Consequences
 
