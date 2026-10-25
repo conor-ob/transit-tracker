@@ -95,6 +95,18 @@ nta:BRAY-HOWTH-I,nta:8220IR0134,,1
 
 For the DART, Direction `0` is northbound (Howth/Malahide) and `1` is southbound (Bray/Greystones). The proxy strips the field before forwarding to `transit-tracker-api`, drops trips travelling the other way (trips with no `directionId` are kept), and trims to the client's own limit. Pairs without a Direction are untouched. See [ADR 0001](docs/adr/0001-customize-schedules-in-a-proxy.md) for why this lives in a proxy rather than a fork.
 
+## Configuring the Device
+
+Neither the configurator nor the firmware's YAML `stops:` option can write a Direction filter, so the Device's settings are versioned here in [`scripts/configure-device.sh`](scripts/configure-device.sh). The script sets the server, feed code, schedule and list mode over the Device's web server, then restarts it. It needs `curl` and `jq`, and a machine on the same LAN as the Device:
+
+```sh
+scripts/configure-device.sh <device ip>
+```
+
+It stops at the first request that fails, so the Device is never restarted half-configured.
+
+With `feed_code_config` set to `nta`, route and stop IDs in `schedule_config` go without the `nta:` prefix (a prefixed ID matches no trips). The firmware caps `schedule_config` at 255 characters, which limits how many Route-stop pairs a Device can have.
+
 ## Development
 
 It's a [Turborepo](https://turborepo.com) monorepo on pnpm workspaces. Install dependencies with `pnpm install`, then:
