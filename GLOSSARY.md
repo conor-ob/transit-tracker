@@ -14,11 +14,7 @@ _Avoid_: Subscription, stop (on its own)
 
 **Walk time**:
 Seconds it takes to reach the stop for a Route-stop pair. Trips departing sooner than that are hidden, and the times shown stay real.
-_Avoid_: Offset, walking offset, buffer
-
-**Offset**:
-Seconds taken off every trip's times for a Route-stop pair, so the Device shows when to leave rather than when the trip departs. Trips you'd have to leave for in the past are hidden. A Route-stop pair has an Offset or a Walk time, never both.
-_Avoid_: Walk time (that keeps real times), time offset
+_Avoid_: Offset (upstream's term, which shifts the times shown), time offset, buffer
 
 **Direction**:
 A route's GTFS `direction_id` (`0` or `1`), meaningful only together with that route.
