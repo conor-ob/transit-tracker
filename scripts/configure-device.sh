@@ -28,10 +28,10 @@ schedule=$(
 route_styles=$(
   IFS=$'\n'
   styles=(
-    "BRAY-HOWTH-I;DART;2F8539"
-    "3 111 e a;111;0052B7"
-    "3 59 d a;59;0052B7"
-    "1 7D c a;7D;F3C936"
+    "BRAY-HOWTH-I;DART;5AFF6D"
+    "3 111 e a;111;0072FF"
+    "3 59 d a;59;0072FF"
+    "1 7D c a;7D;FFD339"
   )
   echo "${styles[*]}"
 )
