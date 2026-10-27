@@ -43,6 +43,7 @@ abbreviations=$(
   IFS=$'\n'
   replacements=(
     "Brides Glen Luas;Brides Glen"
+    "Dublin Connolly;Connolly"
   )
   echo "${replacements[*]}"
 )
