@@ -11,21 +11,21 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.104.0",
+    "@tanstack/react-query": "^5.107.1",
     "@transit-tracker/transit-tracker-web-shared": "workspace:*",
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.3.3",
+    "@tailwindcss/vite": "^4.3.5",
     "@total-typescript/tsconfig": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "@vitejs/plugin-react": "^6.1.2",
+    "@vitejs/plugin-react": "^6.2.1",
     "dotenv": "catalog:",
-    "tailwindcss": "^4.3.3",
+    "tailwindcss": "^4.3.5",
     "typescript": "catalog:",
     "vite": "catalog:",
     "vitest": "catalog:"
