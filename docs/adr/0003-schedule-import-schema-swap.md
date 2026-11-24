@@ -1,6 +1,5 @@
 # Schedule Import swaps a whole Postgres schema
 
-
 All Schedule tables live in a `gtfs` Postgres schema. A Schedule Import loads into a fresh `gtfs_staging` schema, created with `CREATE TABLE … (LIKE gtfs.x INCLUDING ALL)`, checks it, then renames `gtfs` → `gtfs_old` and `gtfs_staging` → `gtfs` in one transaction and drops `gtfs_old`. Readers never see a half-loaded Schedule, and staging always matches the current migrations without restating DDL.
 
 ## Considered Options
