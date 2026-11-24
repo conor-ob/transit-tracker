@@ -18,6 +18,10 @@ updates:
         update-types:
           - minor
           - patch
+    ignore:
+      # @types/node tracks the Node runtime major, moved deliberately with it
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
     directory: /
