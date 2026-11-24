@@ -16,7 +16,7 @@
     "typecheck": "tsc --noEmit true"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.107.1",
+    "@tanstack/react-query": "^5.108.0",
     "@trpc/client": "catalog:",
     "@trpc/tanstack-react-query": "catalog:",
     "superjson": "catalog:"
