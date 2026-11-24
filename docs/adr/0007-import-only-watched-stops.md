@@ -21,12 +21,12 @@ When the list is unset, every Stop is kept, as before. Postgres, the schema swap
 
 - Measured locally against the Feed Version of 2026-10-12, with the 10 busiest Stops as the worst case:
 
-  | | Every Stop | 10 busiest Stops |
-  |---|---|---|
-  | Stop Times | 5.8M | 71k |
-  | Trips | 118k | 22k |
-  | `gtfs` tables | 758 MB | 13 MB |
-  | Import time | about 31 s | 24 s |
+  |               | Every Stop | 10 busiest Stops |
+  | ------------- | ---------- | ---------------- |
+  | Stop Times    | 5.8M       | 71k              |
+  | Trips         | 118k       | 22k              |
+  | `gtfs` tables | 758 MB     | 13 MB            |
+  | Import time   | about 31 s | 24 s             |
 
 - Postgres should settle near its own floor, roughly `shared_buffers` (128 MB) plus its background processes. Lower the 768 MB cap once Railway's memory graph confirms it.
 - The import now holds kept Routes and Trips in memory until Stop Times have streamed, so it can drop Trips that serve no kept Stop. That raises the job's peak RSS from 256 MB to 297 MB with every Stop kept. It also drops Trips with no Stop Times when there is no list.

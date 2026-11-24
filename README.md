@@ -8,22 +8,22 @@ Domain language lives in [CONTEXT.md](CONTEXT.md); architectural decisions in [d
 
 Turborepo + pnpm monorepo, TypeScript throughout, hexagonal architecture.
 
-| Path | Role |
-|---|---|
-| `apps/server` | Fastify server, composition root, tRPC at `/trpc`, Departure Board WebSocket at `/departure-board`. Serves the Schedule file from the Schedule store, hot-swapping new ones (`ScheduleLoader`) |
-| `apps/web` | React + Tailwind pages of live Departures at the Watched Stops (`/` merged, `/stops` per Stop), served by Caddy |
-| `apps/dartboard` | Full-screen LED board of live Departures at the Watched Stops, made to look like the Departure Board, served by Caddy |
-| `jobs/schedule-sync` | Daily Railway cron: Schedule Import (own composition root). Builds the whole Schedule as a SQLite file and publishes it to the Schedule store (ADR 0011) |
-| `packages/transit-tracker-core` | Domain, services, inbound/outbound ports. No I/O |
-| `packages/transit-tracker-sqlite` | The Schedule as a `node:sqlite` file (ADR 0011): `schema.sql`, the import that builds it, and repositories over a swappable handle. The import is used by `schedule-sync`, the repositories by the server |
-| `packages/transit-tracker-redis` | Redis adapter: `RedisTripUpdateStore` and the client factory |
-| `packages/transit-tracker-schedule-store` | `ScheduleStore` adapters: `FsScheduleStore` (a local folder), `S3ScheduleStore` (the Railway bucket) and `createScheduleStore`, which picks one from the env. Used by `schedule-sync` and the server |
-| `packages/transit-tracker-trpc` | tRPC router, thin layer over core services |
-| `packages/transit-tracker-departure-board` | Departure Board adapter: the Transit Tracker firmware's WebSocket messages, `routeStopPairs` parser, Departures to trips |
-| `packages/transit-tracker-web-shared` | Shared by the web apps: tRPC client, the Watched Stops and their Walk Times, `useStopDepartures`, `useNow` |
-| `packages/transit-tracker-utils` | Shared helpers (env schemas, `assertNever`) |
-| `packages/gtfs-static` | Adapter: remote zip → CSV streams (`openRemoteZip`) |
-| `packages/gtfs-realtime` | Adapter: NTA GTFS-Realtime client + protobuf decoding |
+| Path                                       | Role                                                                                                                                                                                                      |
+| ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `apps/server`                              | Fastify server, composition root, tRPC at `/trpc`, Departure Board WebSocket at `/departure-board`. Serves the Schedule file from the Schedule store, hot-swapping new ones (`ScheduleLoader`)            |
+| `apps/web`                                 | React + Tailwind pages of live Departures at the Watched Stops (`/` merged, `/stops` per Stop), served by Caddy                                                                                           |
+| `apps/dartboard`                           | Full-screen LED board of live Departures at the Watched Stops, made to look like the Departure Board, served by Caddy                                                                                     |
+| `jobs/schedule-sync`                       | Daily Railway cron: Schedule Import (own composition root). Builds the whole Schedule as a SQLite file and publishes it to the Schedule store (ADR 0011)                                                  |
+| `packages/transit-tracker-core`            | Domain, services, inbound/outbound ports. No I/O                                                                                                                                                          |
+| `packages/transit-tracker-sqlite`          | The Schedule as a `node:sqlite` file (ADR 0011): `schema.sql`, the import that builds it, and repositories over a swappable handle. The import is used by `schedule-sync`, the repositories by the server |
+| `packages/transit-tracker-redis`           | Redis adapter: `RedisTripUpdateStore` and the client factory                                                                                                                                              |
+| `packages/transit-tracker-schedule-store`  | `ScheduleStore` adapters: `FsScheduleStore` (a local folder), `S3ScheduleStore` (the Railway bucket) and `createScheduleStore`, which picks one from the env. Used by `schedule-sync` and the server      |
+| `packages/transit-tracker-trpc`            | tRPC router, thin layer over core services                                                                                                                                                                |
+| `packages/transit-tracker-departure-board` | Departure Board adapter: the Transit Tracker firmware's WebSocket messages, `routeStopPairs` parser, Departures to trips                                                                                  |
+| `packages/transit-tracker-web-shared`      | Shared by the web apps: tRPC client, the Watched Stops and their Walk Times, `useStopDepartures`, `useNow`                                                                                                |
+| `packages/transit-tracker-utils`           | Shared helpers (env schemas, `assertNever`)                                                                                                                                                               |
+| `packages/gtfs-static`                     | Adapter: remote zip → CSV streams (`openRemoteZip`)                                                                                                                                                       |
+| `packages/gtfs-realtime`                   | Adapter: NTA GTFS-Realtime client + protobuf decoding                                                                                                                                                     |
 
 ## Local development
 
