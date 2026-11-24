@@ -2,7 +2,7 @@
 
 Departures and nearby stops for Dublin public transport, built on the NTA's static GTFS Schedule and GTFS-Realtime feed. Consumed by the owner's own apps over tRPC, and by a Departure Board at home over WebSocket.
 
-Domain language lives in [CONTEXT.md](CONTEXT.md); architectural decisions in [docs/adr](docs/adr).
+Domain language lives in [GLOSSARY.md](GLOSSARY.md); architectural decisions in [docs/adr](docs/adr).
 
 ## Layout
 

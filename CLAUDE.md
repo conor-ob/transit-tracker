@@ -1,6 +1,6 @@
 ## Project
 
-Read `README.md` first: package layout, design notes too small for an ADR, and the roadmap of what to build next. Domain vocabulary is in `CONTEXT.md`, decisions in `docs/adr/`.
+Read `README.md` first: package layout, design notes too small for an ADR, and the roadmap of what to build next. Domain vocabulary is in `GLOSSARY.md`, decisions in `docs/adr/`.
 
 ## Agent skills
 
@@ -14,4 +14,4 @@ Uses the five default labels: `needs-triage`, `needs-info`, `ready-for-agent`, `
 
 ### Domain docs
 
-Single-context: one `CONTEXT.md` and `docs/adr/` at the repo root. See `docs/agents/domain.md`.
+Single-context: one `GLOSSARY.md` and `docs/adr/` at the repo root. See `docs/agents/domain.md`.
