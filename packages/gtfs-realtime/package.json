@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@transit-tracker/transit-tracker-core": "workspace:*",
-    "gtfs-realtime-bindings": "^2.2.0",
+    "gtfs-realtime-bindings": "^3.0.0",
     "zod": "catalog:"
   }
 }
