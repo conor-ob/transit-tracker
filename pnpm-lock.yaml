@@ -168,14 +168,14 @@ catalogs:
       specifier: ^1.0.4
       version: 1.0.4
     '@trpc/client':
-      specifier: ^11.28.6
-      version: 11.28.6
+      specifier: ^11.29.5
+      version: 11.29.5
     '@trpc/server':
-      specifier: ^11.28.6
-      version: 11.28.6
+      specifier: ^11.29.5
+      version: 11.29.5
     '@trpc/tanstack-react-query':
-      specifier: ^11.28.6
-      version: 11.28.6
+      specifier: ^11.29.5
+      version: 11.29.5
     '@types/node':
       specifier: ^24.19.0
       version: 24.19.2
@@ -198,8 +198,8 @@ catalogs:
       specifier: ^8.3.8
       version: 8.3.8
     vitest:
-      specifier: ^5.1.0
-      version: 5.1.0
+      specifier: ^5.1.1
+      version: 5.1.1
     zod:
       specifier: ^4.6.7
       version: 4.6.7
@@ -215,8 +215,8 @@ importers:
         specifier: ^3.17.0
         version: 3.17.0
       turbo:
-        specifier: ^2.11.11
-        version: 2.11.11
+        specifier: ^2.11.13
+        version: 2.11.13
       typescript:
         specifier: 'catalog:'
         version: 7.0.2
@@ -271,7 +271,7 @@ importers:
         version: 8.3.8(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)
       vitest:
         specifier: 'catalog:'
-        version: 5.1.0(@types/node@24.19.2)(vite@8.3.8(@types/node@24.19.2))
+        version: 5.1.1(@types/node@24.19.2)(vite@8.3.8(@types/node@24.19.2))
 
   apps/server:
     dependencies:
@@ -313,7 +313,7 @@ importers:
         version: link:../../packages/transit-tracker-utils
       '@trpc/server':
         specifier: 'catalog:'
-        version: 11.28.6(@types/ws@8.18.2)(fastify@5.12.8)(typescript@7.0.2)
+        version: 11.29.5(@types/ws@8.18.2)(fastify@5.12.8)(typescript@7.0.2)
       dotenv:
         specifier: 'catalog:'
         version: 18.0.10
@@ -353,7 +353,7 @@ importers:
         version: 7.0.2
       vitest:
         specifier: 'catalog:'
-        version: 5.1.0(@types/node@24.19.2)(vite@8.3.8(@types/node@24.19.2))
+        version: 5.1.1(@types/node@24.19.2)(vite@8.3.8(@types/node@24.19.2))
 
   apps/web:
     dependencies:
@@ -405,7 +405,7 @@ importers:
         version: 8.3.8(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)
       vitest:
         specifier: 'catalog:'
-        version: 5.1.0(@types/node@24.19.2)(vite@8.3.8(@types/node@24.19.2))
+        version: 5.1.1(@types/node@24.19.2)(vite@8.3.8(@types/node@24.19.2))
 
   jobs/schedule-sync:
     dependencies:
@@ -448,7 +448,7 @@ importers:
         version: 7.0.2
       vitest:
         specifier: 'catalog:'
-        version: 5.1.0(@types/node@24.19.2)(vite@8.3.8(@types/node@24.19.2))
+        version: 5.1.1(@types/node@24.19.2)(vite@8.3.8(@types/node@24.19.2))
 
   packages/gtfs-realtime:
     dependencies:
@@ -482,7 +482,7 @@ importers:
         version: 7.0.2
       vitest:
         specifier: 'catalog:'
-        version: 5.1.0(@types/node@24.19.2)(vite@8.3.8(@types/node@24.19.2))
+        version: 5.1.1(@types/node@24.19.2)(vite@8.3.8(@types/node@24.19.2))
 
   packages/gtfs-static:
     dependencies:
@@ -507,7 +507,7 @@ importers:
         version: 7.0.2
       vitest:
         specifier: 'catalog:'
-        version: 5.1.0(@types/node@24.19.2)(vite@8.3.8(@types/node@24.19.2))
+        version: 5.1.1(@types/node@24.19.2)(vite@8.3.8(@types/node@24.19.2))
 
   packages/transit-tracker-core:
     dependencies:
@@ -529,7 +529,7 @@ importers:
         version: 7.0.2
       vitest:
         specifier: 'catalog:'
-        version: 5.1.0(@types/node@24.19.2)(vite@8.3.8(@types/node@24.19.2))
+        version: 5.1.1(@types/node@24.19.2)(vite@8.3.8(@types/node@24.19.2))
 
   packages/transit-tracker-departure-board:
     dependencies:
@@ -551,7 +551,7 @@ importers:
         version: 7.0.2
       vitest:
         specifier: 'catalog:'
-        version: 5.1.0(@types/node@24.19.2)(vite@8.3.8(@types/node@24.19.2))
+        version: 5.1.1(@types/node@24.19.2)(vite@8.3.8(@types/node@24.19.2))
 
   packages/transit-tracker-redis:
     dependencies:
@@ -573,16 +573,16 @@ importers:
         version: 7.0.2
       vitest:
         specifier: 'catalog:'
-        version: 5.1.0(@types/node@24.19.2)(vite@8.3.8(@types/node@24.19.2))
+        version: 5.1.1(@types/node@24.19.2)(vite@8.3.8(@types/node@24.19.2))
 
   packages/transit-tracker-schedule-store:
     dependencies:
       '@aws-sdk/client-s3':
-        specifier: 3.1171.0
-        version: 3.1171.0
+        specifier: 3.1172.0
+        version: 3.1172.0
       '@aws-sdk/lib-storage':
-        specifier: 3.1171.0
-        version: 3.1171.0(@aws-sdk/client-s3@3.1171.0)
+        specifier: 3.1172.0
+        version: 3.1172.0(@aws-sdk/client-s3@3.1172.0)
       '@transit-tracker/transit-tracker-core':
         specifier: workspace:*
         version: link:../transit-tracker-core
@@ -607,7 +607,7 @@ importers:
         version: 7.0.2
       vitest:
         specifier: 'catalog:'
-        version: 5.1.0(@types/node@24.19.2)(vite@8.3.8(@types/node@24.19.2))
+        version: 5.1.1(@types/node@24.19.2)(vite@8.3.8(@types/node@24.19.2))
 
   packages/transit-tracker-sqlite:
     dependencies:
@@ -629,7 +629,7 @@ importers:
         version: 7.0.2
       vitest:
         specifier: 'catalog:'
-        version: 5.1.0(@types/node@24.19.2)(vite@8.3.8(@types/node@24.19.2))
+        version: 5.1.1(@types/node@24.19.2)(vite@8.3.8(@types/node@24.19.2))
 
   packages/transit-tracker-trpc:
     dependencies:
@@ -638,7 +638,7 @@ importers:
         version: link:../transit-tracker-core
       '@trpc/server':
         specifier: 'catalog:'
-        version: 11.28.6(@types/ws@8.18.2)(fastify@5.12.8)(typescript@7.0.2)
+        version: 11.29.5(@types/ws@8.18.2)(fastify@5.12.8)(typescript@7.0.2)
       superjson:
         specifier: 'catalog:'
         version: 2.2.6
@@ -657,7 +657,7 @@ importers:
         version: 7.0.2
       vitest:
         specifier: 'catalog:'
-        version: 5.1.0(@types/node@24.19.2)(vite@8.3.8(@types/node@24.19.2))
+        version: 5.1.1(@types/node@24.19.2)(vite@8.3.8(@types/node@24.19.2))
 
   packages/transit-tracker-utils:
     dependencies:
@@ -682,10 +682,10 @@ importers:
         version: 5.108.0(@types/react@19.3.0)(react@19.3.1)
       '@trpc/client':
         specifier: 'catalog:'
-        version: 11.28.6(@trpc/server@11.28.6(@types/ws@8.18.2)(fastify@5.12.8)(typescript@7.0.2))(typescript@7.0.2)
+        version: 11.29.5(@trpc/server@11.29.5(@types/ws@8.18.2)(fastify@5.12.8)(typescript@7.0.2))(typescript@7.0.2)
       '@trpc/tanstack-react-query':
         specifier: 'catalog:'
-        version: 11.28.6(@tanstack/react-query@5.108.0(@types/react@19.3.0)(react@19.3.1))(@trpc/client@11.28.6(@trpc/server@11.28.6(@types/ws@8.18.2)(fastify@5.12.8)(typescript@7.0.2))(typescript@7.0.2))(@trpc/server@11.28.6(@types/ws@8.18.2)(fastify@5.12.8)(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2)
+        version: 11.29.5(@tanstack/react-query@5.108.0(@types/react@19.3.0)(react@19.3.1))(@trpc/client@11.29.5(@trpc/server@11.29.5(@types/ws@8.18.2)(fastify@5.12.8)(typescript@7.0.2))(typescript@7.0.2))(@trpc/server@11.29.5(@types/ws@8.18.2)(fastify@5.12.8)(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2)
       superjson:
         specifier: 'catalog:'
         version: 2.2.6
@@ -698,7 +698,7 @@ importers:
         version: link:../transit-tracker-trpc
       '@trpc/server':
         specifier: 'catalog:'
-        version: 11.28.6(@types/ws@8.18.2)(fastify@5.12.8)(typescript@7.0.2)
+        version: 11.29.5(@types/ws@8.18.2)(fastify@5.12.8)(typescript@7.0.2)
       '@types/node':
         specifier: 'catalog:'
         version: 24.19.2
@@ -718,8 +718,8 @@ packages:
     resolution: {integrity: sha512-OHlfkNzDFjYnwNPABhwAkDTUi0HPjfsKUHJDR0bSMORpCXNzRpInPCNCIT08xKDhjaPlcLJ+2Av+Sk7hHnuC8A==}
     engines: {node: '>=20.0.0'}
 
-  '@aws-sdk/client-s3@3.1171.0':
-    resolution: {integrity: sha512-EIWM2ZuLBYqwM1W1PkNIWrQzFy6Y7WBwVpEDpnCrMtcQyIN3VOXbf0uy+0xG2dbv+PcvxIlEK8A1ohdbyMV72w==}
+  '@aws-sdk/client-s3@3.1172.0':
+    resolution: {integrity: sha512-ByCRHFlL9yui61J5e4w9nrDZcRUbAzd+78z9Q1DQWoAT2HE1XwjtDGEx86GdNTu1+oSyerNhl8eijF6jMUvEpg==}
     engines: {node: '>=20.0.0'}
 
   '@aws-sdk/core@3.981.0':
@@ -758,14 +758,14 @@ packages:
     resolution: {integrity: sha512-duLeE3xlf0viHeH+1RM4z5duR3b32BCZTWVMu+MbxFPjQBxy7hmIGEqt5hekuFPRuXoyhMovjNl+PNNsb5oiGQ==}
     engines: {node: '>=20.0.0'}
 
-  '@aws-sdk/lib-storage@3.1171.0':
-    resolution: {integrity: sha512-TbV9meuyAshkD35h1Kw9BYZF8sXqDHT6fCmUdWsxiepxZMSjmnNRqc8zjJx5ahuV5/ReD2l3cJ/WJtMoh5lM7w==}
+  '@aws-sdk/lib-storage@3.1172.0':
+    resolution: {integrity: sha512-LwMKAKEwzXZvk31QudwHIYMWq6YZ5N5+K/E0KkiraHnInLRrmGviQTNUykjXzYElv1JS0s4ZbR6THze39JRc5w==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
-      '@aws-sdk/client-s3': ^3.1171.0
+      '@aws-sdk/client-s3': ^3.1172.0
 
-  '@aws-sdk/middleware-sdk-s3@3.972.89':
-    resolution: {integrity: sha512-Lem2/ZT1eOicVATBukPRPm2S4JAmrTEkP3/dnJE9iTeyqIKqsJF2j04f5L0o+rrZIrwR13swiQMdzcE5jXRzNA==}
+  '@aws-sdk/middleware-sdk-s3@3.972.90':
+    resolution: {integrity: sha512-UtdPoeKTfUyk4WI6iGirvuN+2MkVMNiWyYwHlwbdOBIonD66+Jm8qR4zdlJJDLqTIDmtvULTH0ZUyEyf/BGTsA==}
     engines: {node: '>=20.0.0'}
 
   '@aws-sdk/nested-clients@3.998.3':
@@ -1378,10 +1378,6 @@ packages:
   '@sinonjs/samsam@8.0.3':
     resolution: {integrity: sha512-hw6HbX+GyVZzmaYNh82Ecj1vdGZrqVIn/keDTg63IgAwiQPO+xCz99uG6Woqgb4tM0mUiFENKZ4cqd7IX94AXQ==}
 
-  '@smithy/core@3.39.0':
-    resolution: {integrity: sha512-JJ/46AWQ4ipS1N2eZmUj7yzIhH8NhQIfAE+dce7NSB6dmFh+7hvD4pbofcoT4I0Xzfy/LNhZx3V2QhwYyAiqdg==}
-    engines: {node: '>=18.0.0'}
-
   '@smithy/core@3.41.0':
     resolution: {integrity: sha512-fuZ34H1uizS3WgcX9VXG7Uy8od5A5/kCc+CR3NkHLNm2H/BE9AUHG02VIdu8ZB7FYhLqsr/RZbqAoXuOCg/Oxg==}
     engines: {node: '>=18.0.0'}
@@ -1514,14 +1510,14 @@ packages:
   '@total-typescript/tsconfig@1.0.4':
     resolution: {integrity: sha512-fO4ctMPGz1kOFOQ4RCPBRBfMy3gDn+pegUfrGyUFRMv/Rd0ZM3/SHH3hFCYG4u6bPLG8OlmOGcBLDexvyr3A5w==}
 
-  '@trpc/client@11.28.6':
-    resolution: {integrity: sha512-pj3CGacQVOsktvmJN2qEgRcrYVnwRT3Ik36fbHGo89puZpzQ+2Jnl9DV16Hl/9qKFbimGkkBBawRSIN1VuRVZA==}
+  '@trpc/client@11.29.5':
+    resolution: {integrity: sha512-EGebaRjt/rDHt7gJ6nv262nLRPalzwSyI/dEMYtA+PBEy/HxhoVUW3bQqyE34cozJNj2HAgB+TqXVe76pWGk+Q==}
     peerDependencies:
-      '@trpc/server': 11.28.6
+      '@trpc/server': 11.29.5
       typescript: '>=5.7.2'
 
-  '@trpc/server@11.28.6':
-    resolution: {integrity: sha512-VoUTZUnjPzSGcW7R4pCyeyLL2Pj2INbI/xHeju1epTbNZeomLfeD3xMK4XnaNmHgFXAF5GNhViG4rEo7K8PpdQ==}
+  '@trpc/server@11.29.5':
+    resolution: {integrity: sha512-8ET3fqBo4byVkjLNU047NFwmT3JQIjZCVpdJwanb6Tpv7b5P3M9pjN7JofqGyDQZaDR5XLkWX2hWrsIpjtt5wA==}
     peerDependencies:
       '@types/aws-lambda': '*'
       '@types/express': '*'
@@ -1541,42 +1537,42 @@ packages:
       next:
         optional: true
 
-  '@trpc/tanstack-react-query@11.28.6':
-    resolution: {integrity: sha512-aCrg6a94Hu4+THWgT6oeeFbEMl2r2b94kb68i0TBfnQySsjPFHgfm0OVA//v3fY6iqGazW+Db1ERUgNfpkJalg==}
+  '@trpc/tanstack-react-query@11.29.5':
+    resolution: {integrity: sha512-PgZ0aRqTtbDwOFFDj+m9ikInSlnIoYWM6wfp9gJo9iO5/oWa1DcoU4OHrlaNYsLEmxM0eRWnBmgGZkyZ5vsW4g==}
     peerDependencies:
       '@tanstack/react-query': ^5.106.0
-      '@trpc/client': 11.28.6
-      '@trpc/server': 11.28.6
+      '@trpc/client': 11.29.5
+      '@trpc/server': 11.29.5
       react: '>=18.2.0'
       typescript: '>=5.7.2'
 
-  '@turbo/darwin-64@2.11.11':
-    resolution: {integrity: sha512-HMMeUIEAsmyIbSYn1ySvF/4gGMa0joiTMq4dQDuloIAnOpbtFT3JEiVsYnASdTWDXvplbRbZlqjU1EBeSR9G1A==}
+  '@turbo/darwin-64@2.11.13':
+    resolution: {integrity: sha512-5IT29i4j55E5O66+la7L8Y46ut7dFaNZqrgUIYYNtcpMt9Ql7aYnSQb/6tZ+prE2AfX1RBCAtRJE41txS2rG3w==}
     cpu: [x64]
     os: [darwin]
 
-  '@turbo/darwin-arm64@2.11.11':
-    resolution: {integrity: sha512-+8iySNgqYWY6PZYUQzYu6zn0C04z2OEq1vQ6oMGsJ9sxN6wOpg1gzi1AJ5VKDHviWvMUjhqng51hTEQZOuiqYQ==}
+  '@turbo/darwin-arm64@2.11.13':
+    resolution: {integrity: sha512-YFJPayVNlhSPRIZSeERiZYGKKqPs6N6qGhim8J3GtBdv5ZjUNF1ixfnAAyCVTqFEnMSkn1W7F0Y07kca8EjWsg==}
     cpu: [arm64]
     os: [darwin]
 
-  '@turbo/linux-64@2.11.11':
-    resolution: {integrity: sha512-uImTKFYCFKsoFxjaXeJXlMPv4uU3OIIDjyzoIwYVqOtu9LnCZ/5/fzu/WP6+G9YfwGAPRplTHkKFfcI5t97RGw==}
+  '@turbo/linux-64@2.11.13':
+    resolution: {integrity: sha512-R5RIQflV4ffBDNuUwjmtmzIr6Y2UeyeeHTtultYF7cnFn3tG1RZ4GRBlpjUhHB6JxuR7l1B450hlbzdtlD3ghg==}
     cpu: [x64]
     os: [android, linux]
 
-  '@turbo/linux-arm64@2.11.11':
-    resolution: {integrity: sha512-Y7xffSVfyyYRGzNy6PLdrFL4xXN6iTuR3W0SyJvH/yd3d4defA6dansZwJpPDVnIpD8a2Qn256DwY/Qin4Ip4g==}
+  '@turbo/linux-arm64@2.11.13':
+    resolution: {integrity: sha512-AwV8pVO/cH/lwx1B7SGfzUA/3e6vmPaygFp9NOSRESs6t3Wr63zrBuXlluDogAOIxIMlHDB2ZbBueDsBnQxh2Q==}
     cpu: [arm64]
     os: [android, linux]
 
-  '@turbo/windows-64@2.11.11':
-    resolution: {integrity: sha512-e2WqNtkPGo3QDwNNwwBo89Dx3PtSJ9Wp9QuRNzn80rrRnSHB+1mfBMZTpdHjA8/G/sG9rl76TdWdpgVsimjRdg==}
+  '@turbo/windows-64@2.11.13':
+    resolution: {integrity: sha512-PGXYTaFaN3FZloe4RffNGJmfB+TIWlqQgKK1PVyKwPN+PUzxGa+byxHBWFHredMaVbnUc6L/F6/QR4iHyM/wug==}
     cpu: [x64]
     os: [win32]
 
-  '@turbo/windows-arm64@2.11.11':
-    resolution: {integrity: sha512-LURivfmgv34Osm8NR1gZGx4vdlux9KAgRM+FoooXNG0838ff0+akWZ76iPSke0NS2rsf7Z4Gw+YSaygzNTZuRA==}
+  '@turbo/windows-arm64@2.11.13':
+    resolution: {integrity: sha512-YdRHWstBUHWt/eChOEM4f9LT0dPiWK5SNgtV77bLCr3JNke9M5E7metqelNYj+tXe36dH0BZrk2CMnFlWqHKng==}
     cpu: [arm64]
     os: [win32]
 
@@ -1757,8 +1753,8 @@ packages:
       oxc-transform-react:
         optional: true
 
-  '@vitest/mocker@5.1.0':
-    resolution: {integrity: sha512-5umB9/jlWcqVS6fsrFmv5Gdnpu6wAUio/lEOwAmvB7v+lFo/IW2B9FhAD0p19GCULTgMzLCdUmuCDCnAzWgppQ==}
+  '@vitest/mocker@5.1.1':
+    resolution: {integrity: sha512-b2OgTB4+3ImWIVafXKazJXwLKwQxUNnix6b3xUvUTMh7RyXlrtzoxfZr8aEz9zkHOMAS4K5lu3TvFWoiVeVTQg==}
     peerDependencies:
       msw: ^2.4.9 || ^3.0.0
       vite: ^6.0.0 || ^7.0.0 || ^8.0.0
@@ -1768,8 +1764,8 @@ packages:
       vite:
         optional: true
 
-  '@vitest/spy@5.1.0':
-    resolution: {integrity: sha512-2DPO5OMHWKrBngC+fCmTQqemNF0gidRhp3lxbBmRhW+M1XJrfgPpqNqWVevXtn2f2ufD5ZaR1B6B641aAlcX5A==}
+  '@vitest/spy@5.1.1':
+    resolution: {integrity: sha512-6K8C6alQG1/Yc8/ZI22iJS7JEsxPdVzqtqDq+/xM4Z0mGVykemMVjLhqMy/q6/IHYG3kKD8hKSwRen/ZdyI9vQ==}
 
   '@yuku-toolchain/darwin-arm64@0.27.0':
     resolution: {integrity: sha512-A3v83rNyHWlnJeeMBsWggZ+RZDP2BEMHIiMk+j23LqtVch24MXwg8veflkQgZ2GtCtZOxcG+NkztnsSUS4rWEQ==}
@@ -2212,6 +2208,9 @@ packages:
   magic-string@1.4.3:
     resolution: {integrity: sha512-z12OxmaPGE0F4xlpGdjuAUckipLpQlTAuAmyGhNoD7ODpYUzvDfvtxUbjM/jwznyP178oju/KDdyi220wNJ0RQ==}
 
+  magic-string@1.4.5:
+    resolution: {integrity: sha512-oLLC2+YvQUfAa+vxoufE/yc1icb87M9iXIRqAoR/2EhE/8cb3SF/+Gi0c2By1B+5Vz2e2vQtUvHiu1+63Znh+w==}
+
   markdown-it-anchor@8.6.7:
     resolution: {integrity: sha512-FlCHFwNnutLgVTflOYHPW2pPcl2AACqVzExlkGQNsi4CJgqOHN7YTgDd4LuhgN1BFO3TS0vLAruV1Td6dwWPJA==}
     peerDependencies:
@@ -2544,8 +2543,8 @@ packages:
     engines: {node: '>=18.0.0'}
     hasBin: true
 
-  turbo@2.11.11:
-    resolution: {integrity: sha512-AI4UJbUE/2cVZdoXJ4PODc8qvrjhQQX9Fa93eKGOI6Ims/w7+kUIb9T1jhlgSnZcf+gtUruci/ohSwqtNNC5Yw==}
+  turbo@2.11.13:
+    resolution: {integrity: sha512-2EZ8StW6tqaj71HGF60oUOmJrPQHidmZ5dcwv2VORofya9JthVrfZhxbzRMx/QxjPwYi754i2h5RFsZSDzpnaQ==}
     hasBin: true
 
   type-detect@4.0.8:
@@ -2623,20 +2622,20 @@ packages:
       yaml:
         optional: true
 
-  vitest@5.1.0:
-    resolution: {integrity: sha512-MzmNFnrwa8v8lF1bLxw3UJ4EREwVOVb75VqJZmUDRjJ6EluK/x9th7qTbaeDk41WxE1GxWqmTXcdsfobfH5sOA==}
+  vitest@5.1.1:
+    resolution: {integrity: sha512-trVmzUFOSraCZcI3uZIMD5FqBh4atFkC/XuJP/IU7qtyQay0FCs3Ia+0QiQ2JJwGyWG/xrcBoJNel2+O7kEZ0g==}
     engines: {node: ^22.12.0 || ^24.0.0 || >=26.0.0}
     hasBin: true
     peerDependencies:
       '@edge-runtime/vm': '*'
       '@opentelemetry/api': ^1.9.0
       '@types/node': ^22.0.0 || >=24.0.0
-      '@vitest/browser-playwright': 5.1.0
-      '@vitest/browser-preview': 5.1.0
+      '@vitest/browser-playwright': 5.1.1
+      '@vitest/browser-preview': 5.1.1
       '@vitest/browser-webdriverio': ^5.0.0-beta.5 || >=5.0.0
-      '@vitest/coverage-istanbul': 5.1.0
-      '@vitest/coverage-v8': 5.1.0
-      '@vitest/ui': 5.1.0
+      '@vitest/coverage-istanbul': 5.1.1
+      '@vitest/coverage-v8': 5.1.1
+      '@vitest/ui': 5.1.1
       happy-dom: '*'
       jsdom: '*'
       vite: ^6.4.0 || ^7.0.0 || ^8.0.0
@@ -2709,12 +2708,12 @@ snapshots:
       '@smithy/types': 4.20.0
       tslib: 2.8.1
 
-  '@aws-sdk/client-s3@3.1171.0':
+  '@aws-sdk/client-s3@3.1172.0':
     dependencies:
       '@aws-sdk/checksums': 3.1002.5
       '@aws-sdk/core': 3.981.0
       '@aws-sdk/credential-provider-node': 3.972.97
-      '@aws-sdk/middleware-sdk-s3': 3.972.89
+      '@aws-sdk/middleware-sdk-s3': 3.972.90
       '@aws-sdk/signature-v4-multi-region': 3.996.52
       '@aws-sdk/types': 3.975.1
       '@smithy/core': 3.41.0
@@ -2818,9 +2817,9 @@ snapshots:
       '@smithy/types': 4.20.0
       tslib: 2.8.1
 
-  '@aws-sdk/lib-storage@3.1171.0(@aws-sdk/client-s3@3.1171.0)':
+  '@aws-sdk/lib-storage@3.1172.0(@aws-sdk/client-s3@3.1172.0)':
     dependencies:
-      '@aws-sdk/client-s3': 3.1171.0
+      '@aws-sdk/client-s3': 3.1172.0
       '@smithy/core': 3.41.0
       '@smithy/types': 4.20.0
       buffer: 5.6.0
@@ -2828,7 +2827,7 @@ snapshots:
       stream-browserify: 3.0.0
       tslib: 2.8.1
 
-  '@aws-sdk/middleware-sdk-s3@3.972.89':
+  '@aws-sdk/middleware-sdk-s3@3.972.90':
     dependencies:
       '@aws-sdk/core': 3.981.0
       '@aws-sdk/signature-v4-multi-region': 3.996.52
@@ -3264,11 +3263,6 @@ snapshots:
       '@sinonjs/commons': 3.0.1
       type-detect: 4.1.0
 
-  '@smithy/core@3.39.0':
-    dependencies:
-      '@smithy/types': 4.20.0
-      tslib: 2.8.1
-
   '@smithy/core@3.41.0':
     dependencies:
       '@smithy/types': 4.20.0
@@ -3276,25 +3270,25 @@ snapshots:
 
   '@smithy/credential-provider-imds@4.5.2':
     dependencies:
-      '@smithy/core': 3.39.0
+      '@smithy/core': 3.41.0
       '@smithy/types': 4.20.0
       tslib: 2.8.1
 
   '@smithy/fetch-http-handler@5.8.1':
     dependencies:
-      '@smithy/core': 3.39.0
+      '@smithy/core': 3.41.0
       '@smithy/types': 4.20.0
       tslib: 2.8.1
 
   '@smithy/node-http-handler@4.14.2':
     dependencies:
-      '@smithy/core': 3.39.0
+      '@smithy/core': 3.41.0
       '@smithy/types': 4.20.0
       tslib: 2.8.1
 
   '@smithy/signature-v4@5.7.5':
     dependencies:
-      '@smithy/core': 3.39.0
+      '@smithy/core': 3.41.0
       '@smithy/types': 4.20.0
       tslib: 2.8.1
 
@@ -3381,42 +3375,42 @@ snapshots:
 
   '@total-typescript/tsconfig@1.0.4': {}
 
-  '@trpc/client@11.28.6(@trpc/server@11.28.6(@types/ws@8.18.2)(fastify@5.12.8)(typescript@7.0.2))(typescript@7.0.2)':
+  '@trpc/client@11.29.5(@trpc/server@11.29.5(@types/ws@8.18.2)(fastify@5.12.8)(typescript@7.0.2))(typescript@7.0.2)':
     dependencies:
-      '@trpc/server': 11.28.6(@types/ws@8.18.2)(fastify@5.12.8)(typescript@7.0.2)
+      '@trpc/server': 11.29.5(@types/ws@8.18.2)(fastify@5.12.8)(typescript@7.0.2)
       typescript: 7.0.2
 
-  '@trpc/server@11.28.6(@types/ws@8.18.2)(fastify@5.12.8)(typescript@7.0.2)':
+  '@trpc/server@11.29.5(@types/ws@8.18.2)(fastify@5.12.8)(typescript@7.0.2)':
     dependencies:
       typescript: 7.0.2
     optionalDependencies:
       '@types/ws': 8.18.2
       fastify: 5.12.8
 
-  '@trpc/tanstack-react-query@11.28.6(@tanstack/react-query@5.108.0(@types/react@19.3.0)(react@19.3.1))(@trpc/client@11.28.6(@trpc/server@11.28.6(@types/ws@8.18.2)(fastify@5.12.8)(typescript@7.0.2))(typescript@7.0.2))(@trpc/server@11.28.6(@types/ws@8.18.2)(fastify@5.12.8)(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2)':
+  '@trpc/tanstack-react-query@11.29.5(@tanstack/react-query@5.108.0(@types/react@19.3.0)(react@19.3.1))(@trpc/client@11.29.5(@trpc/server@11.29.5(@types/ws@8.18.2)(fastify@5.12.8)(typescript@7.0.2))(typescript@7.0.2))(@trpc/server@11.29.5(@types/ws@8.18.2)(fastify@5.12.8)(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2)':
     dependencies:
       '@tanstack/react-query': 5.108.0(@types/react@19.3.0)(react@19.3.1)
-      '@trpc/client': 11.28.6(@trpc/server@11.28.6(@types/ws@8.18.2)(fastify@5.12.8)(typescript@7.0.2))(typescript@7.0.2)
-      '@trpc/server': 11.28.6(@types/ws@8.18.2)(fastify@5.12.8)(typescript@7.0.2)
+      '@trpc/client': 11.29.5(@trpc/server@11.29.5(@types/ws@8.18.2)(fastify@5.12.8)(typescript@7.0.2))(typescript@7.0.2)
+      '@trpc/server': 11.29.5(@types/ws@8.18.2)(fastify@5.12.8)(typescript@7.0.2)
       react: 19.3.1
       typescript: 7.0.2
 
-  '@turbo/darwin-64@2.11.11':
+  '@turbo/darwin-64@2.11.13':
     optional: true
 
-  '@turbo/darwin-arm64@2.11.11':
+  '@turbo/darwin-arm64@2.11.13':
     optional: true
 
-  '@turbo/linux-64@2.11.11':
+  '@turbo/linux-64@2.11.13':
     optional: true
 
-  '@turbo/linux-arm64@2.11.11':
+  '@turbo/linux-arm64@2.11.13':
     optional: true
 
-  '@turbo/windows-64@2.11.11':
+  '@turbo/windows-64@2.11.13':
     optional: true
 
-  '@turbo/windows-arm64@2.11.11':
+  '@turbo/windows-arm64@2.11.13':
     optional: true
 
   '@tybys/wasm-util@0.10.4':
@@ -3529,16 +3523,16 @@ snapshots:
       '@rolldown/pluginutils': 1.0.1
       vite: 8.3.8(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)
 
-  '@vitest/mocker@5.1.0(vite@8.3.8(@types/node@24.19.2))':
+  '@vitest/mocker@5.1.1(vite@8.3.8(@types/node@24.19.2))':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
-      '@vitest/spy': 5.1.0
+      '@vitest/spy': 5.1.1
       estree-walker: 3.0.3
-      magic-string: 1.4.3
+      magic-string: 1.4.5
     optionalDependencies:
       vite: 8.3.8(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)
 
-  '@vitest/spy@5.1.0': {}
+  '@vitest/spy@5.1.1': {}
 
   '@yuku-toolchain/darwin-arm64@0.27.0':
     optional: true
@@ -3942,6 +3936,10 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.6.0
 
+  magic-string@1.4.5:
+    dependencies:
+      '@jridgewell/sourcemap-codec': 1.6.0
+
   markdown-it-anchor@8.6.7(@types/markdown-it@14.2.0)(markdown-it@14.3.2):
     dependencies:
       '@types/markdown-it': 14.2.0
@@ -4286,14 +4284,14 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  turbo@2.11.11:
+  turbo@2.11.13:
     optionalDependencies:
-      '@turbo/darwin-64': 2.11.11
-      '@turbo/darwin-arm64': 2.11.11
-      '@turbo/linux-64': 2.11.11
-      '@turbo/linux-arm64': 2.11.11
-      '@turbo/windows-64': 2.11.11
-      '@turbo/windows-arm64': 2.11.11
+      '@turbo/darwin-64': 2.11.13
+      '@turbo/darwin-arm64': 2.11.13
+      '@turbo/linux-64': 2.11.13
+      '@turbo/linux-arm64': 2.11.13
+      '@turbo/windows-64': 2.11.13
+      '@turbo/windows-arm64': 2.11.13
 
   type-detect@4.0.8: {}
 
@@ -4351,14 +4349,14 @@ snapshots:
       jiti: 2.7.0
       tsx: 4.23.15
 
-  vitest@5.1.0(@types/node@24.19.2)(vite@8.3.8(@types/node@24.19.2)):
+  vitest@5.1.1(@types/node@24.19.2)(vite@8.3.8(@types/node@24.19.2)):
     dependencies:
       '@types/chai': 5.2.3
-      '@vitest/mocker': 5.1.0(vite@8.3.8(@types/node@24.19.2))
+      '@vitest/mocker': 5.1.1(vite@8.3.8(@types/node@24.19.2))
       chai: 6.3.0
       es-module-lexer: 2.3.2
       expect-type: 1.4.0
-      magic-string: 1.4.3
+      magic-string: 1.4.5
       obug: 3.0.0
       picomatch: 4.0.7
       std-env: 4.3.0
